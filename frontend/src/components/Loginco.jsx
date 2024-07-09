@@ -1,14 +1,42 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { apiStart } from "../../api";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Loginco = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
+
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${apiStart}/api/user/login`, {
+        email,
+        password,
+      });
+
+      setMessage(response.data.message);
+      // Save the token in local storage or context
+      localStorage.setItem("loginToken", response.data.token);
+      setIsAuthenticated(true);
+      //navigate("/userprofile");
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setMessage(error.response.data.message || "Server error");
+    } finally {
+      setEmail("");
+      setPassword("");
+      setIsLoading(false);
+    }
 
     console.log(`user email is ${email}`);
     console.log(`user password is ${password}`);

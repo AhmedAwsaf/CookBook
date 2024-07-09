@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { apiStart } from "../../api";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +21,31 @@ const Signup = () => {
     e.preventDefault();
     const { username, email, password, passwordConfirmation } = signUpInfo;
     console.log(username, email, password, passwordConfirmation);
+    if (
+      username.length &&
+      email.length &&
+      password.length &&
+      passwordConfirmation.length &&
+      password === passwordConfirmation
+    ) {
+      //api call
+
+      try {
+        setIsLoading(true);
+        console.log(signUpInfo);
+        const response = await axios.post(`${apiStart}/api/user/create`, {
+          username,
+          email,
+          password,
+        });
+      } catch (error) {
+        console.log(error.message || "Error creating user");
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      alert("Passwords doesn't match confirm password");
+    }
   };
 
   return (
