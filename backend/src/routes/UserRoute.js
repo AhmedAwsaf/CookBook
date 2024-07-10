@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const {
   getallusers,
   getUser,
+  getmyuser,
   createUser,
   loginUser,
 } = require("../controllers/UserController");

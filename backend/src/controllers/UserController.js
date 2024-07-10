@@ -39,6 +39,22 @@ const getUser = async (req, res) => {
   }
 };
 
+const getmyuser = async (req, res) => {
+  const id = req.user.id;
+
+  try {
+      const user = await User.findById(id).select('-password');
+
+      if (!user) {
+          return res.status(404).json({ success: false, message: 'User not found' });
+      }
+
+      res.status(200).json({ success: true, message: 'User fetched successfully', data: user });
+  } catch (error) {
+      res.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
 const createUser = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -119,4 +135,4 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { getallusers, getUser, createUser, loginUser };
+module.exports = { getallusers, getUser, getmyuser, createUser, loginUser };

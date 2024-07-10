@@ -27,7 +27,7 @@ const Loginco = () => {
       // Save the token in local storage or context
       localStorage.setItem("loginToken", response.data.token);
       setIsAuthenticated(true);
-      //navigate("/userprofile");
+      navigate("/");
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -156,6 +156,7 @@ const Loginco = () => {
             </button>
           </div>
         </form>
+        {/* <h1>{message}</h1> */}
       </div>
 
       <div className="relative h-64 w-full sm:h-96 lg:h-full lg:w-1/2">

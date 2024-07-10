@@ -6,6 +6,9 @@ const port = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static('public'));
 
 async function main() {
   await mongoose.connect(

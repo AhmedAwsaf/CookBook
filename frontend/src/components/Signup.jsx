@@ -240,6 +240,7 @@ const Signup = () => {
                   .
                 </p>
               </div>
+              {/* <h1 className="text-red-700">{response.message}</h1> */}
             </form>
           </div>
         </main>
