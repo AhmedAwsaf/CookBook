@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema(
       default: "/profilepictures/default.png",
     },
 
+    bio: {
+      type: String,
+      default: "Please set your bio.",
+    },
+
     role: {
       type: String,
       default: "customer",

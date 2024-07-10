@@ -9,7 +9,7 @@ const Loginco = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
+  const { checkTokenValidity } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +26,8 @@ const Loginco = () => {
       setMessage(response.data.message);
       // Save the token in local storage or context
       localStorage.setItem("loginToken", response.data.token);
-      setIsAuthenticated(true);
-      navigate("/");
+      checkTokenValidity();
+      navigate("/userprofile");
       console.log(response);
     } catch (error) {
       console.log(error);
