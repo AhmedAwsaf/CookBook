@@ -43,15 +43,25 @@ const getmyuser = async (req, res) => {
   const id = req.user.id;
 
   try {
-      const user = await User.findById(id).select('-password');
+    const user = await User.findById(id).select("-password");
 
-      if (!user) {
-          return res.status(404).json({ success: false, message: 'User not found' });
-      }
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
-      res.status(200).json({ success: true, message: 'User fetched successfully', data: user });
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "User fetched successfully",
+        data: user,
+      });
   } catch (error) {
-      res.status(500).json({ success: false, message: 'Server error', error: error.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 };
 
@@ -134,5 +144,33 @@ const loginUser = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+const editUser = async (req, res) => {
+  const { username, bio, photo } = req.body;
+  const userId = req.user.id;
 
-module.exports = { getallusers, getUser, getmyuser, createUser, loginUser };
+  try {
+    // Find the user by ID and update their profile
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { username, bio, photo },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ success: true, message: "Profile updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+module.exports = {
+  getallusers,
+  getUser,
+  getmyuser,
+  createUser,
+  loginUser,
+  editUser,
+};

@@ -7,6 +7,7 @@ const {
   getmyuser,
   createUser,
   loginUser,
+  editUser,
 } = require("../controllers/UserController");
 
 const verifyToken = require("../controllers/middleware/authMiddleware");
@@ -23,6 +24,7 @@ router.post("/login", loginUser);
 router.post("/create", createUser);
 
 // update
+router.post("/update", verifyToken, editUser);
 
 // delete
 

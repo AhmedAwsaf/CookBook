@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { apiStart } from "../../api";
+import {
+  HiArrowRightStartOnRectangle,
+  HiOutlineUserCircle,
+} from "react-icons/hi2";
 
 const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
   return (
@@ -19,22 +23,21 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
         ))}
       </ul>
       {/* login and signup button  */}
+
       <ul className="flex items-center gap-4 font-medium">
-      {userProfile ? (
+        {userProfile ? (
           <>
             <li>
-              <img
-                src={`${apiStart}${userProfile.photo}`}
-                alt="User Profile"
-                className="h-10 w-10 rounded-full object-cover"
-              />
+              <Link to="/userprofile">
+                <HiOutlineUserCircle size={30} />
+              </Link>
             </li>
             <li>
               <button
+                className="text-secondary px-4 py-4 rounded"
                 onClick={onLogout}
-                className="text-secondary px-4 py-2 rounded bg-red-500 text-white"
               >
-                Log Out
+                <HiArrowRightStartOnRectangle size={26} />
               </button>
             </li>
           </>
@@ -42,17 +45,59 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
           <>
             <li>
               <Link to="/login">
-                <button className="text-secondary px-4 py-2 rounded">Log In</button>
+                <button className="text-secondary px-4 py-2 rounded">
+                  Log In
+                </button>
               </Link>
             </li>
             <li>
               <Link to="/signup">
-                <button className="text-secondary px-4 py-2 rounded">Sign Up</button>
+                <button className="text-secondary px-4 py-2 rounded">
+                  Sign Up
+                </button>
               </Link>
             </li>
           </>
         )}
       </ul>
+
+      {/* <ul className="flex items-center gap-4 font-medium">
+        {isAuthenticated ? (
+          <>
+            <li>
+              <Link to="/userprofile">
+                <HiOutlineUserCircle size={30} />
+              </Link>
+            </li>
+            <li>
+              <button
+                className="text-secondary px-4 py-4 rounded"
+                onClick={onLogout}
+              >
+                <HiArrowRightStartOnRectangle size={26} />
+              </button>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login">
+                <button className="text-secondary px-4 py-4 rounded">
+                  Log In
+                </button>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/signup">
+                <button className="text-secondary px-4 py-4 rounded">
+                  Sign up
+                </button>
+              </Link>
+            </li>
+          </>
+        )}
+      </ul> */}
     </div>
   );
 };
