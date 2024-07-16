@@ -39,11 +39,13 @@ const AdminPage = () => {
     <div className="font-sans">
       <header className="bg-white">
         <div className="flex justify-center py-5">
+        <a href='/' alt="home">
           <img
             src={logo}
             alt="logo"
             className="h-12 w-auto"
           />
+          </a>
           <h1 className="text-red-700 font-bold text-2xl ml-4">Admin Page</h1>
         </div>
       </header>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { apiStart } from "../../api";
+import logo from "/logo.svg";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,8 @@ const Signup = () => {
           email,
           password,
         });
+        console.log(response.data);
+        navigate("/");
       } catch (error) {
         console.log(error.message || "Error creating user");
       } finally {
@@ -50,12 +53,16 @@ const Signup = () => {
 
   return (
     <section>
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-        <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+    <a href="/" className="fixed right-0 top-0 flex z-40">
+        <h1 className="my-auto h-full">🡐 HOME</h1>
+        <img src={logo} className="h-12 my-6 mx-8" alt="logo"/>
+      </a>
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12 z-10">
+        <section className="relative flex h-32 items-end lg:bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
           <img
             alt=""
             src="https://images.unsplash.com/photo-1566836986583-94da6d4c6c67?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            className="absolute inset-0 h-full w-full object-cover opacity-85"
+            className="absolute inset-0 h-full w-full object-cover opacity-0 lg:opacity-85 pointer-events-none"
           />
 
           <div className="hidden lg:relative lg:block lg:p-12">
@@ -70,7 +77,7 @@ const Signup = () => {
           </div>
         </section>
 
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
+        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6 z-30">
           <div className="max-w-xl lg:max-w-3xl">
             <div className="relative -mt-16 block ">
               <h1 className="mt-2 text-3xl text-center font-bold text-gray-800">
@@ -83,12 +90,12 @@ const Signup = () => {
               className="mt-12 grid grid-cols-6 gap-6"
             >
               <div className="col-span-6">
-                {/* <label
+                <label
                   htmlFor="username"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Username
-                </label> */}
+                </label>
 
                 <input
                   type="text"
@@ -103,13 +110,13 @@ const Signup = () => {
               </div>
 
               <div className="col-span-6">
-                {/* <label
+                <label
                   htmlFor="Email"
                   className="block text-sm font-medium text-gray-700"
                 >
                   {" "}
                   Email{" "}
-                </label> */}
+                </label>
 
                 <input
                   type="email"
@@ -124,13 +131,13 @@ const Signup = () => {
               </div>
 
               <div className="col-span-6 sm:col-span-3">
-                {/* <label
+                <label
                   htmlFor="Password"
                   className="block text-sm font-medium text-gray-700"
                 >
                   {" "}
                   Password{" "}
-                </label> */}
+                </label>
 
                 <div className="relative">
                   <input
@@ -175,12 +182,12 @@ const Signup = () => {
               </div>
 
               <div className="col-span-6 sm:col-span-3">
-                {/* <label
+                <label
                   htmlFor="PasswordConfirmation"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Password Confirmation
-                </label> */}
+                </label>
 
                 <div className="relative">
                   <input

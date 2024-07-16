@@ -8,6 +8,7 @@ const {
   createUser,
   loginUser,
   editUser,
+  aeditUser
 } = require("../controllers/UserController");
 
 const verifyToken = require("../controllers/middleware/authMiddleware");
@@ -26,6 +27,8 @@ router.post("/create", createUser);
 // update
 router.post("/update", verifyToken, editUser);
 
+//adminonly
+router.put("/aupdate", verifyToken, aeditUser);
 // delete
 
 module.exports = router;

@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { apiStart } from "../../api";
 import {
-  HiArrowRightStartOnRectangle,
+  HiArrowRightOnRectangle,
   HiOutlineUserCircle,
+  HiCheckCircle,
 } from "react-icons/hi2";
+import { apiStart } from "../../api";
+
 
 const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="h-16 flex justify-between items-center px-6 lg:px-12">
       <a href="/">
-        <img src={Logo} alt="logo" className="h-12 w-auto ml-30" />{" "}
+        <img src={Logo} alt="logo" className="h-12 w-auto" />{" "}
         {/* Adjust ml-4 as needed */}
       </a>
       <ul className="flex gap-7">
@@ -22,82 +30,63 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
           </li>
         ))}
       </ul>
-      {/* login and signup button  */}
-
-      <ul className="flex items-center gap-4 font-medium">
+      <div className="flex items-center gap-4 font-medium">
         {userProfile ? (
           <>
-            <li>
-              <Link to="/userprofile">
-                <HiOutlineUserCircle size={30} />
-              </Link>
-            </li>
-            <li>
-              <button
-                className="text-secondary px-4 py-4 rounded"
-                onClick={onLogout}
-              >
-                <HiArrowRightStartOnRectangle size={26} />
+            <div className="relative flex">
+              <h1 className="mr-4 my-auto">{userProfile.username}</h1>
+              <button onClick={toggleDropdown} className="focus:outline-none">
+                <img
+                  src={`${apiStart}${userProfile.photo}` || `${apiStart}/default-profile.png`} // Placeholder image
+                  alt="profile"
+                  className="h-10 w-10 rounded-full"
+                />
               </button>
-            </li>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                  <Link
+                    to="/userprofile"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    User Profile
+                  </Link>
+                  <button
+                    className="flex w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                    onClick={() => {
+                      onLogout();
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    Logout
+                    <HiArrowRightOnRectangle size={20} className="mx-2" />
+                  </button>
+                </div>
+              )}
+            </div>
+            {!userProfile.isVerified && (
+              <Link to="/verify-email">
+                <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                  Verify Email
+                </button>
+              </Link>
+            )}
           </>
         ) : (
           <>
-            <li>
-              <Link to="/login">
-                <button className="text-secondary px-4 py-2 rounded">
-                  Log In
-                </button>
-              </Link>
-            </li>
-            <li>
-              <Link to="/signup">
-                <button className="text-secondary px-4 py-2 rounded">
-                  Sign Up
-                </button>
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
-
-      {/* <ul className="flex items-center gap-4 font-medium">
-        {isAuthenticated ? (
-          <>
-            <li>
-              <Link to="/userprofile">
-                <HiOutlineUserCircle size={30} />
-              </Link>
-            </li>
-            <li>
-              <button
-                className="text-secondary px-4 py-4 rounded"
-                onClick={onLogout}
-              >
-                <HiArrowRightStartOnRectangle size={26} />
+            <Link to="/login">
+              <button className="text-secondary px-4 py-2 rounded">
+                Log In
               </button>
-            </li>
-          </>
-        ) : (
-          <>
-            <li>
-              <Link to="/login">
-                <button className="text-secondary px-4 py-4 rounded">
-                  Log In
-                </button>
-              </Link>
-            </li>
-
-            <li>
-              <Link to="/signup">
-                <button className="text-secondary px-4 py-4 rounded">
-                  Sign up
-                </button>
-              </Link>
-            </li>
+            </Link>
+            <Link to="/signup">
+              <button className="text-secondary px-4 py-2 rounded">
+                Sign Up
+              </button>
+            </Link>
           </>
         )}
-      </ul> */}
+      </div>
     </div>
   );
 };

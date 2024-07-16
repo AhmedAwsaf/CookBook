@@ -108,6 +108,8 @@ const createUser = async (req, res) => {
   }
 };
 
+
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -144,6 +146,7 @@ const loginUser = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+
 const editUser = async (req, res) => {
   const { username, bio, photo } = req.body;
   const userId = req.user.id;
@@ -166,6 +169,36 @@ const editUser = async (req, res) => {
   }
 };
 
+const aeditUser = async (req, res) => {
+  const { username, bio, photo, changeId } = req.body;
+  const userId = req.user.id;
+
+  const admin = await User.findById(userId)
+
+  if(admin.role != "admin") {
+    return res.status(404).json({ message: "You are not authorized" });
+  }
+
+  try {
+    // Find the user by ID and update their profile
+    const user = await User.findByIdAndUpdate(
+      changeId,
+      { username, bio, photo },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ success: true, message: "Profile updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+
+
 module.exports = {
   getallusers,
   getUser,
@@ -173,4 +206,5 @@ module.exports = {
   createUser,
   loginUser,
   editUser,
+  aeditUser
 };

@@ -7,7 +7,7 @@ import MobileNav from "./MobileNav";
 
 const Header = () => {
   const [hideLeft, setHideLeft] = useState("-left-[1000px]");
-  const { isAuthenticated, userObj, setIsAuthenticated, checkTokenValidity } =
+  const { isAuthenticated, userObj, setIsAuthenticated, checkTokenValidity, isVerified } =
     useAuth();
   const menuItems = ["recipes", "minimart", "about", "contact"];
 
