@@ -8,6 +8,8 @@ const {
   createUser,
   loginUser,
   editUser,
+  sendverifyemail,
+  verifyemail,
   aeditUser
 } = require("../controllers/UserController");
 
@@ -20,6 +22,8 @@ router.get("/one/:id", getUser);
 //authorization
 router.get("/my", verifyToken, getmyuser);
 router.post("/login", loginUser);
+router.get("/verify-email", verifyemail)
+router.get("/send-verify-email", verifyToken, sendverifyemail);
 
 // create
 router.post("/create", createUser);

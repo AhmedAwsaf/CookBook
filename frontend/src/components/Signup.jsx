@@ -40,7 +40,7 @@ const Signup = () => {
           password,
         });
         console.log(response.data);
-        navigate("/");
+        navigate("/verify-email");
       } catch (error) {
         console.log(error.message || "Error creating user");
       } finally {

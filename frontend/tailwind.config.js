@@ -8,6 +8,15 @@ export default {
         secondary: "#1b2629",
         btnColor: "#9c70@a",
       },
+      animation: {
+        border: 'background ease infinite',
+      },
+      keyframes: {
+        background: {
+          '0%, 100%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+        },
+      },
     },
   },
   plugins: [
