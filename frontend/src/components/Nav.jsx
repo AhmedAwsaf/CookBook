@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import {
   HiArrowRightOnRectangle,
   HiOutlineUserCircle,
   HiCheckCircle,
+  HiOutlineShoppingCart,
 } from "react-icons/hi2";
+import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
 import { apiStart } from "../../api";
 
 const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
+  const { checkTokenValidity, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
+  function handleLogOut() {
+    localStorage.removeItem("loginToken");
+    checkTokenValidity();
+    navigate("/");
+  }
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -45,7 +56,58 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
           </Link>
         </li>
       </ul>
-      <div className="flex items-center gap-4 font-medium">
+      <ul className="flex items-center gap-4 font-medium">
+        {isAuthenticated ? (
+          <>
+            <li>
+              <Link to="/minimart/cart" className="hover:text-teal-600">
+                <HiOutlineShoppingCart size={28} />
+              </Link>
+            </li>
+            <li>
+              <Link to="/userprofile" className="hover:text-teal-600">
+                <HiOutlineUserCircle size={30} />
+              </Link>
+            </li>
+            <li>
+              <button
+                onClick={handleLogOut}
+                className="pt-1 hover:text-teal-600"
+              >
+                <HiArrowRightStartOnRectangle size={28} />
+              </button>
+            </li>
+            <li>
+              {!userProfile.isVerified && (
+                <Link to="/verify-email">
+                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                    Verify Email
+                  </button>
+                </Link>
+              )}
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link to="/login">
+                <button className="text-secondary px-4 py-4 rounded">
+                  Log In
+                </button>
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/signup">
+                <button className="text-secondary px-4 py-4 rounded">
+                  Sign up
+                </button>
+              </Link>
+            </li>
+          </>
+        )}
+      </ul>
+      {/* <div className="flex items-center gap-4 font-medium">
         {userProfile ? (
           <>
             <div className="relative flex">
@@ -81,8 +143,8 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
                   </button>
                 </div>
               )}
-            </div>
-            {!userProfile.isVerified && (
+            </div> */}
+      {/* {!userProfile.isVerified && (
               <Link to="/verify-email">
                 <button className="px-4 py-2 rounded text-red-700 border border-red-600">
                   Verify Email
@@ -104,7 +166,7 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
             </Link>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

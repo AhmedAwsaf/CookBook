@@ -27,7 +27,7 @@ const Loginco = () => {
       // Save the token in local storage or context
       localStorage.setItem("loginToken", response.data.token);
       checkTokenValidity();
-      navigate("/");
+      navigate("/userprofile");
       console.log(response);
     } catch (error) {
       console.log(error);

@@ -9,7 +9,7 @@ const Userprofilepage = () => {
     <div>
       <Header />
       <div className="flex">
-        {/* <UserSideBar className="w-1/4" /> */}
+        <UserSideBar className="w-1/4" />
         <div className="flex-1 p-6">
           <div className="m1-0">
             <UserProfile />
