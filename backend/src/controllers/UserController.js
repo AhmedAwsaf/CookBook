@@ -51,13 +51,11 @@ const getmyuser = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "User fetched successfully",
-        data: user,
-      });
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
   } catch (error) {
     res
       .status(500)
@@ -144,6 +142,8 @@ const loginUser = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+
+//edit user
 const editUser = async (req, res) => {
   const { username, bio, photo } = req.body;
   const userId = req.user.id;
