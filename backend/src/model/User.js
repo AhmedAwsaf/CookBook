@@ -37,6 +37,10 @@ const userSchema = new mongoose.Schema(
         ref: "Recipe", // Assuming 'Recipe' is another model
       },
     ],
+    UserLikeCount: {
+      type: Number,
+      default: 0,
+    },
     creditPoints: {
       type: Number,
       default: 0,

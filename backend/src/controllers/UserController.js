@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 const User = require("../model/User");
 
-const beapistart = "http://localhost:5001"
+const beapistart = "http://localhost:5001";
 
-const feapistart = "http://localhost:5173"
+const feapistart = "http://localhost:5173";
 
 const getallusers = async (req, res) => {
   try {
@@ -56,13 +56,11 @@ const getmyuser = async (req, res) => {
         .json({ success: false, message: "User not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "User fetched successfully",
-        data: user,
-      });
+    res.status(200).json({
+      success: true,
+      message: "User fetched successfully",
+      data: user,
+    });
   } catch (error) {
     res
       .status(500)
@@ -118,8 +116,6 @@ const createUser = async (req, res) => {
   }
 };
 
-
-
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -157,12 +153,11 @@ const loginUser = async (req, res) => {
   }
 };
 
-const sendverifyemail = async(req, res) => {
-
-  console.log("Sending")
+const sendverifyemail = async (req, res) => {
+  console.log("Sending");
 
   const id = req.user.id;
-  
+
   try {
     const user = await User.findById(id).select("-password");
     if (!user) {
@@ -170,23 +165,27 @@ const sendverifyemail = async(req, res) => {
       return res.status(400).json({ success: false, message: "Invalid email" });
     }
 
-    const verifytoken = jwt.sign({ id: user._id, role: user.role }, "emailverify", {
-      expiresIn: "24h",
-    });
+    const verifytoken = jwt.sign(
+      { id: user._id, role: user.role },
+      "emailverify",
+      {
+        expiresIn: "24h",
+      }
+    );
 
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
+      host: "smtp.ethereal.email",
       port: 587,
       auth: {
-          user: 'zakary.sawayn78@ethereal.email',
-          pass: 'qxVy48M8FjvqU6ABD9'
-      }
+        user: "zakary.sawayn78@ethereal.email",
+        pass: "qxVy48M8FjvqU6ABD9",
+      },
     });
 
     const mailOptions = {
-      from: 'zakary.sawayn78@ethereal.email',
+      from: "zakary.sawayn78@ethereal.email",
       to: user.email,
-      subject: 'Email Verification for Recipe',
+      subject: "Email Verification for Recipe",
       text: `Step-1 of you recipe building experience is to get verified. Click below: 
       ${feapistart}/verify-email?token=${verifytoken}`,
     };
@@ -195,48 +194,47 @@ const sendverifyemail = async(req, res) => {
       if (error) {
         return console.log(error);
       }
-      console.log('Email sent: ' + info.response);
+      console.log("Email sent: " + info.response);
     });
-    
 
     res.json({ success: true, message: "Verification sent", user });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
-  
 };
 
-const verifyemail = async(req, res) => {
-  console.log("VERIFYING")
+const verifyemail = async (req, res) => {
+  console.log("VERIFYING");
   const { token } = req.query;
 
   if (!token) {
-    return res.status(400).send('Verification token is missing');
+    return res.status(400).send("Verification token is missing");
   }
 
   try {
-    const decoded = jwt.verify(token, 'emailverify');
+    const decoded = jwt.verify(token, "emailverify");
     const id = decoded.id;
 
     const user = await User.findById(id).select("-password");
     if (!user) {
-      return res.status(400).send('User not found');
+      return res.status(400).send("User not found");
     }
 
     if (user.isVerified) {
-      return res.status(400).send('User already verified');
+      return res.status(400).send("User already verified");
     }
 
     user.isVerified = true;
 
     await user.save();
 
-    res.status(200).send('Email verified successfully');
+    res.status(200).send("Email verified successfully");
   } catch (error) {
-    res.status(400).send('Invalid or expired token');
+    res.status(400).send("Invalid or expired token");
   }
-}
+};
 
+//edit user
 const editUser = async (req, res) => {
   const { username, bio, photo } = req.body;
   const userId = req.user.id;
@@ -263,9 +261,9 @@ const aeditUser = async (req, res) => {
   const { username, bio, photo, changeId } = req.body;
   const userId = req.user.id;
 
-  const admin = await User.findById(userId)
+  const admin = await User.findById(userId);
 
-  if(admin.role != "admin") {
+  if (admin.role != "admin") {
     return res.status(404).json({ message: "You are not authorized" });
   }
 
@@ -287,8 +285,6 @@ const aeditUser = async (req, res) => {
   }
 };
 
-
-
 module.exports = {
   getallusers,
   getUser,
@@ -298,5 +294,5 @@ module.exports = {
   sendverifyemail,
   editUser,
   verifyemail,
-  aeditUser
+  aeditUser,
 };

@@ -7,7 +7,6 @@ import {
 } from "react-icons/hi2";
 import { apiStart } from "../../api";
 
-
 const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -22,13 +21,29 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
         {/* Adjust ml-4 as needed */}
       </a>
       <ul className="flex gap-7">
-        {menuItems?.map((menu, index) => (
-          <li key={index}>
-            <Link to="/" className="font-medium capitalize text-secondary">
-              {menu}
-            </Link>
-          </li>
-        ))}
+        <li>
+          <Link to="/" className="font-medium capitalize text-secondary">
+            Recipes
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/minimart"
+            className="font-medium capitalize text-secondary"
+          >
+            Minimart
+          </Link>
+        </li>
+        <li>
+          <Link to="#" className="font-medium capitalize text-secondary">
+            About
+          </Link>
+        </li>
+        <li>
+          <Link to="#" className="font-medium capitalize text-secondary">
+            Contact
+          </Link>
+        </li>
       </ul>
       <div className="flex items-center gap-4 font-medium">
         {userProfile ? (
@@ -37,7 +52,10 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
               <h1 className="mr-4 my-auto">{userProfile.username}</h1>
               <button onClick={toggleDropdown} className="focus:outline-none">
                 <img
-                  src={`${apiStart}${userProfile.photo}` || `${apiStart}/default-profile.png`} // Placeholder image
+                  src={
+                    `${apiStart}${userProfile.photo}` ||
+                    `${apiStart}/default-profile.png`
+                  } // Placeholder image
                   alt="profile"
                   className="h-10 w-10 rounded-full"
                 />
