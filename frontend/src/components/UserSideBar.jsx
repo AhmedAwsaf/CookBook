@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { apiStart } from "../../api";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserSideBar = () => {
   const { isAuthenticated, setIsAuthenticated, userObj } = useAuth();
@@ -65,19 +65,19 @@ const UserSideBar = () => {
           </li>
           <li>
             <a
-              href="#"
+              href="/minimart/cart"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Cart
             </a>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/userprofile/createrecipe"
               className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
             >
               Create
-            </a>
+            </Link>
           </li>
           <li>
             <details className="group [&_summary::-webkit-details-marker]:hidden">

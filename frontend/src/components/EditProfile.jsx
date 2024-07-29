@@ -21,13 +21,13 @@ const EditProfile = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        `${apiStart}/api/user/update`,
+        `${apiStart}/api/user/update`, //axios package used instead of default fetch
         { username, bio, photo },
         { headers: { Authorization: localStorage.getItem("loginToken") } }
       );
 
       if (response.data.success) {
-        checkTokenValidity();
+        checkTokenValidity(); //gets updated user info
         navigate("/userprofile");
       }
     } catch (error) {

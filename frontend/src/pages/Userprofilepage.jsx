@@ -13,7 +13,9 @@ const Userprofilepage = () => {
         <div className="flex-1 p-6">
           <div className="m1-0">
             <UserProfile />
-            <PostsList />
+            <div className="flex justify-center">
+              <PostsList />
+            </div>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 async function main() {
   await mongoose.connect(
@@ -23,8 +23,12 @@ async function main() {
 
   //routes
   const UserRoutes = require("./src/routes/UserRoute");
+  const RecipeRoutes = require("./src/routes/RecipeRoute");
+  const ProductsRoutes = require("./src/routes/productRoute");
 
   app.use("/api/user", UserRoutes);
+  app.use("/api/recipe", RecipeRoutes);
+  app.use("/api/minimart", ProductsRoutes);
 
   app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

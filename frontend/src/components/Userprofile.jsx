@@ -3,6 +3,7 @@ import UserProfileStat from "./UserProfileStat"; // Example profile picture
 import { useAuth } from "../contexts/AuthContext";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import { apiStart } from "../../api";
 
 const UserProfile = () => {
   // Example data, replace with actual data
@@ -15,7 +16,8 @@ const UserProfile = () => {
     <div className="p-6 max-w-screen-md mx-auto">
       <div className="flex items-center space-x-4 mb-6">
         <img
-          src={userObj?.photo}
+          // src={userObj?.photo}
+          src={`${apiStart}${userObj.photo}`}
           alt="Profile"
           className="h-24 w-24 rounded-full border-2 border-gray-300"
         />

@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
 
     bio: {
       type: String,
-      default: "Please set your bio.",
+      default: "",
     },
 
     role: {
@@ -37,10 +37,15 @@ const userSchema = new mongoose.Schema(
         ref: "Recipe", // Assuming 'Recipe' is another model
       },
     ],
+    UserLikeCount: {
+      type: Number,
+      default: 0,
+    },
     creditPoints: {
       type: Number,
       default: 0,
     },
+    isVerified: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

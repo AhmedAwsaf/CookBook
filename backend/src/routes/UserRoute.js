@@ -9,6 +9,9 @@ const {
   loginUser,
   editUser,
   deleteUser,
+  sendverifyemail,
+  verifyemail,
+  aeditUser,
 } = require("../controllers/UserController");
 
 const verifyToken = require("../controllers/middleware/authMiddleware");
@@ -20,6 +23,8 @@ router.get("/one/:id", getUser);
 //authorization
 router.get("/my", verifyToken, getmyuser);
 router.post("/login", loginUser);
+router.get("/verify-email", verifyemail);
+router.get("/send-verify-email", verifyToken, sendverifyemail);
 
 // create
 router.post("/create", createUser);
@@ -27,6 +32,8 @@ router.post("/create", createUser);
 // update
 router.post("/update", verifyToken, editUser);
 
+//adminonly
+router.put("/aupdate", verifyToken, aeditUser);
 // delete
 
 router.post("/delete", verifyToken, deleteUser);
