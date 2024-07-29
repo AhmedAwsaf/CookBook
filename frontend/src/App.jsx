@@ -9,6 +9,7 @@ import EditProfilePage from "./pages/EditProfilePage";
 import ProtectedPage from "./pages/ProtectedPage";
 import Userprofilepage from "./pages/Userprofilepage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/ForgetPasswordPage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/signup" element={<CreateAccount />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/forget-password" element={<ForgotPasswordPage />} />
         <Route path="/userprofile" element={<ProtectedPage />}>
           <Route path="/userprofile" element={<Userprofilepage />} />
           <Route

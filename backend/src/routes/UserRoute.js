@@ -5,11 +5,18 @@ const {
   getallusers,
   getUser,
   getmyuser,
+
   createUser,
+
   loginUser,
-  editUser,
+
   sendverifyemail,
   verifyemail,
+
+  sendforgeturl,
+  resetPassword,
+
+  editUser,
   aeditUser
 } = require("../controllers/UserController");
 
@@ -22,6 +29,7 @@ router.get("/one/:id", getUser);
 //authorization
 router.get("/my", verifyToken, getmyuser);
 router.post("/login", loginUser);
+
 router.get("/verify-email", verifyemail)
 router.get("/send-verify-email", verifyToken, sendverifyemail);
 
@@ -30,6 +38,13 @@ router.post("/create", createUser);
 
 // update
 router.post("/update", verifyToken, editUser);
+
+router.post("/send-forget-password",sendforgeturl);
+router.post("/reset-password",resetPassword);
+
+//uploadpicture
+
+
 
 //adminonly
 router.put("/aupdate", verifyToken, aeditUser);
