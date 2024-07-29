@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { apiStart } from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -12,7 +13,7 @@ const Signup = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setSignUpInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -38,6 +39,9 @@ const Signup = () => {
           email,
           password,
         });
+        if (response.data.success) {
+          navigate("/login");
+        }
       } catch (error) {
         console.log(error.message || "Error creating user");
       } finally {

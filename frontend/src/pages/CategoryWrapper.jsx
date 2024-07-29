@@ -10,7 +10,6 @@ function CategoryItem({ name, href, backgroundColor, color }) {
   return (
     <div className="m-2">
       {" "}
-      {/* Added margin to create the gap */}
       <Link to={href} className="rounded-full">
         <div
           className="capitalize px-6 py-2 text-center rounded-full"

@@ -7,8 +7,7 @@ import MobileNav from "./MobileNav";
 
 const Header = () => {
   const [hideLeft, setHideLeft] = useState("-left-[1000px]");
-  const { isAuthenticated, userObj, setIsAuthenticated, checkTokenValidity } =
-    useAuth();
+  const { isAuthenticated, setIsAuthenticated, checkTokenValidity } = useAuth();
   const menuItems = ["recipes", "minimart", "about", "contact"];
 
   const onOpen = () => {
@@ -29,7 +28,7 @@ const Header = () => {
         <Nav
           menuItems={menuItems}
           Logo={logo}
-          userProfile={isAuthenticated ? userObj : null}
+          userProfile={isAuthenticated}
           onLogout={handleLogout}
         />
       </div>
@@ -37,7 +36,7 @@ const Header = () => {
         <MobileNav
           menuItems={menuItems}
           Logo={logo}
-          userProfile={isAuthenticated ? userObj : null}
+          userProfile={isAuthenticated}
           onLogout={handleLogout}
         />
       </div>

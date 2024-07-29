@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+
 const {
   getallusers,
   getUser,
@@ -8,6 +8,7 @@ const {
   createUser,
   loginUser,
   editUser,
+  deleteUser,
 } = require("../controllers/UserController");
 
 const verifyToken = require("../controllers/middleware/authMiddleware");
@@ -27,5 +28,7 @@ router.post("/create", createUser);
 router.post("/update", verifyToken, editUser);
 
 // delete
+
+router.post("/delete", verifyToken, deleteUser);
 
 module.exports = router;
