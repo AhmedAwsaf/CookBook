@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { apiStart } from '../../api';
+import logo from "/logo.svg";
 
 const VerifyEmailPage = () => {
   const [message, setMessage] = useState('Loading...');
@@ -77,7 +78,11 @@ const VerifyEmailPage = () => {
       /> */}
 
       <div className="flex flex-1 items-center justify-center">
+
         <div className="mx-auto max-w-xl px-16 py-32 text-center m-2 rounded-xl shadow-2xl bg-white">
+        <a href="/">
+          <img src={logo} alt="logo" className="h-12 w-auto mx-auto mb-6" />
+        </a>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
           Verify Email
           </h1>

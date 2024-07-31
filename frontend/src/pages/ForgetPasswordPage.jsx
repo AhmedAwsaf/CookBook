@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { apiStart } from '../../api';
+import logo from '/logo.svg';
 
 const ForgetPasswordPage = () => {
-  const [message, setMessage] = useState('Loading...');
+  const [message, setMessage] = useState('');
   const [token, setToken] = useState(null);
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -54,10 +55,13 @@ const ForgetPasswordPage = () => {
     <div className="flex h-screen flex-col bg-slate-200">
       <div className="flex flex-1 items-center justify-center">
         <div className="mx-auto max-w-xl px-16 py-32 text-center m-2 rounded-xl shadow-2xl bg-white">
+          <a href="/">
+            <img src={logo} alt="logo" className="h-12 w-auto mx-auto mb-6" />
+          </a>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Forget Password
           </h1>
-          {message && <p>{message}</p>}
+          {message && <p className="mt-4 text-center text-gray-700">{message}</p>}
           {token ? (
             <div>
               <input
