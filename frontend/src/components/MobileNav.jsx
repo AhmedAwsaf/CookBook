@@ -101,6 +101,16 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
           ))}
           {userProfile ? (
             <>
+<<<<<<< Updated upstream
+=======
+              <li>
+                <Link to="/userprofile">
+                  <button className="text-secondary px-4 py-2 rounded">
+                    Userprofile
+                  </button>
+                </Link>
+              </li>
+>>>>>>> Stashed changes
               <li>
                 <img
                   src={`${apiStart}${userProfile.photo}`}
@@ -108,6 +118,16 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
                   className="h-10 w-10 rounded-full object-cover"
                 />
               </li>
+<<<<<<< Updated upstream
+=======
+              {!userProfile.isVerified && (
+                <Link to="/verify-email">
+                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                    Verify Email
+                  </button>
+                </Link>
+              )}
+>>>>>>> Stashed changes
               <li>
                 <button
                   onClick={() => {
@@ -124,14 +144,14 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             <>
               <li>
                 <Link to="/login" onClick={toggleMobileMenu}>
-                  <button className="text-secondary px-4 py-2 rounded">
+                  <button className="font-medium capitalize text-secondary">
                     Log In
                   </button>
                 </Link>
               </li>
               <li>
                 <Link to="/signup" onClick={toggleMobileMenu}>
-                  <button className="text-secondary px-4 py-2 rounded">
+                  <button className="font-medium capitalize text-secondary">
                     Sign Up
                   </button>
                 </Link>

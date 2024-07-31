@@ -18,6 +18,11 @@ const AuthProvider = ({ children }) => {
       if (response.data.success) {
         setIsAuthenticated(true);
         setUserObj(response.data.data);
+<<<<<<< Updated upstream
+=======
+        console.log(userObj);
+        setIsVerified(response.data.data.isverified);
+>>>>>>> Stashed changes
       } else {
         setIsAuthenticated(false);
       }

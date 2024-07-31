@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   createRecipe,
   getAllRecipes,
+  getSelectedRecipe,
 } = require("../controllers/recipeController");
 
 // Create a recipe

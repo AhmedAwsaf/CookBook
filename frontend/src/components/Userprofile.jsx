@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserProfileStat from "./UserProfileStat"; // Example profile picture
 import { useAuth } from "../contexts/AuthContext";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+<<<<<<< Updated upstream
+=======
+import { apiStart } from "../../api";
+import axios from "axios";
+>>>>>>> Stashed changes
 
 const UserProfile = () => {
-  // Example data, replace with actual data
-  const postsCount = 120;
-  const followersCount = 350;
-  const followingCount = 85;
+  const [postsCount, setPostsCount] = useState(0);
   const { userObj } = useAuth();
-
+  console.log(userObj);
+  useEffect(() => {
+    async function getUserPosts() {
+      try {
+        const response = await axios.post(
+          `${apiStart}/api/recipe/userRecipes`,
+          { createdBy: userObj?._id }
+        );
+        setPostsCount(response.data.length);
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUserPosts();
+  }, []);
   return (
     <div className="p-6 max-w-screen-md mx-auto">
       <div className="flex items-center space-x-4 mb-6">
         <img
+<<<<<<< Updated upstream
           src={userObj?.photo}
+=======
+          src={`${apiStart}${userObj.photo}`}
+>>>>>>> Stashed changes
           alt="Profile"
           className="h-24 w-24 rounded-full border-2 border-gray-300"
         />
@@ -36,8 +57,8 @@ const UserProfile = () => {
       </div>
       <UserProfileStat
         postsCount={postsCount}
-        followersCount={followersCount}
-        followingCount={followingCount}
+        followersCount={userObj?.UserLikeCount}
+        followingCount={userObj?.creditPoints}
       />
     </div>
   );

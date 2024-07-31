@@ -50,8 +50,17 @@ const Signup = () => {
 
   return (
     <section>
+<<<<<<< Updated upstream
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <section className="relative flex h-32 items-end bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+=======
+      <a href="/" className="fixed right-0 top-0 flex z-40">
+        <h1 className="my-auto h-full">🡐 HOME</h1>
+        <img src={logo} className="h-12 my-6 mx-8" alt="logo" />
+      </a>
+      <div className="lg:grid lg:min-h-screen lg:grid-cols-12 z-10">
+        <section className="relative flex h-32 items-end lg:bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
+>>>>>>> Stashed changes
           <img
             alt=""
             src="https://images.unsplash.com/photo-1566836986583-94da6d4c6c67?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -80,7 +89,7 @@ const Signup = () => {
 
             <form
               onSubmit={handleSubmit}
-              className="mt-12 grid grid-cols-6 gap-6"
+              className="mt-14 grid grid-cols-6 gap-6 max-w-lg "
             >
               <div className="col-span-6">
                 {/* <label

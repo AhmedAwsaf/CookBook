@@ -13,7 +13,7 @@ const UserProfileStat = ({ postsCount, followersCount, followingCount }) => {
       </div>
       <div className="text-center">
         <h2 className="text-2xl font-semibold">{followingCount}</h2>
-        <p className="text-sm text-gray-600">Posts Liked</p>
+        <p className="text-sm text-gray-600">Credit Points</p>
       </div>
     </div>
   );
