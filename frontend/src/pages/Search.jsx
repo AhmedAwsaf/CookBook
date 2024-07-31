@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { MdOutlineSearch } from "react-icons/md";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import Card from "../components/Card";
 import Postcard from "../components/Postcard";
 import { apiStart } from "../../api";
 

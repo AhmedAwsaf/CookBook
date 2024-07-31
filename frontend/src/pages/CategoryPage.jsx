@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
 import CategoryWrapper from "./CategoryWrapper";
-import Card from "../components/Card";
 import axios from "axios";
 import { apiStart } from "../../api";
 import Postcard from "../components/Postcard";
