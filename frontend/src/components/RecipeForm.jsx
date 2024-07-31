@@ -356,43 +356,6 @@ const RecipeForm = () => {
 
       <div className="mb-4">
         <label
-          htmlFor="instructions"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Instructions
-        </label>
-        {recipe.instructions.map((instruction, index) => (
-          <div key={index} className="flex gap-4 items-center mb-2">
-            <input
-              type="text"
-              name={`instruction${index}`}
-              value={instruction}
-              placeholder="Enter Instruction"
-              onChange={(e) => handleInstructionChange(index, e)}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
-              required
-            />
-
-            <button
-              type="button"
-              onClick={() => removeInstruction(index)}
-              className="ml-2 text-sm text-red-600 hover:text-red-900"
-            >
-              Remove
-            </button>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addInstruction}
-          className="mt-2 text-teal-600 hover:text-teal-900"
-        >
-          Add instruction
-        </button>
-      </div>
-
-      <div className="mb-4">
-        <label
           htmlFor="ingredients"
           className="block text-sm font-medium text-gray-700"
         >
@@ -421,19 +384,110 @@ const RecipeForm = () => {
             <button
               type="button"
               onClick={() => removeIngredient(index)}
-              className="ml-2 text-sm text-red-600 hover:text-red-900"
+              className="text-sm text-red-600 hover:text-red-900"
             >
-              Remove
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
             </button>
           </div>
         ))}
-        <button
-          type="button"
-          onClick={addIngredient}
-          className="mt-2 text-teal-600 hover:text-teal-900"
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={addIngredient}
+            className="text-teal-600 hover:text-teal-900 text-sm"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="size-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div className="mb-4">
+        <label
+          htmlFor="instructions"
+          className="block text-sm font-medium text-gray-700"
         >
-          Add Ingredient
-        </button>
+          Instructions
+        </label>
+        {recipe.instructions.map((instruction, index) => (
+          <div key={index} className="flex gap-4 items-center mb-2">
+            <input
+              type="text"
+              name={`instruction${index}`}
+              value={instruction}
+              placeholder="Enter Instruction"
+              onChange={(e) => handleInstructionChange(index, e)}
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
+              required
+            />
+            <button
+              type="button"
+              onClick={() => removeInstruction(index)}
+              className="text-sm text-red-600 hover:text-red-900"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="size-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+            </button>
+          </div>
+        ))}
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={addInstruction}
+            className="text-teal-600 hover:text-teal-900 text-sm"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="size-4"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div className="text-right">

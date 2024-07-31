@@ -102,11 +102,13 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
           ))}
           {userProfile ? (
             <>
-            <li>
-              <Link to="/userprofile">
-                <button className="text-secondary px-4 py-2 rounded">Userprofile</button>
-              </Link>
-            </li>
+              <li>
+                <Link to="/userprofile">
+                  <button className="text-secondary px-4 py-2 rounded">
+                    Userprofile
+                  </button>
+                </Link>
+              </li>
               <li>
                 <img
                   src={`${apiStart}${userProfile.photo}`}
@@ -115,11 +117,19 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
                 />
               </li>
               {!userProfile.isVerified && (
-              <Link to="/verify-email">
-                <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                  Verify Email
-                </button>
-              </Link>
+                <Link to="/verify-email">
+                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                    Verify Email
+                  </button>
+                </Link>
+              )}
+
+              {!userProfile.isVerified && (
+                <Link to="/verify-email">
+                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                    Verify Email
+                  </button>
+                </Link>
               )}
               <li>
                 <button
@@ -137,14 +147,14 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             <>
               <li>
                 <Link to="/login" onClick={toggleMobileMenu}>
-                  <button className="text-secondary px-4 py-2 rounded">
+                  <button className="font-medium capitalize text-secondary">
                     Log In
                   </button>
                 </Link>
               </li>
               <li>
                 <Link to="/signup" onClick={toggleMobileMenu}>
-                  <button className="text-secondary px-4 py-2 rounded">
+                  <button className="font-medium capitalize text-secondary">
                     Sign Up
                   </button>
                 </Link>
