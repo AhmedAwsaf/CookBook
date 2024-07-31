@@ -12,16 +12,25 @@ import VerifyEmailPage from "./pages/VerifyEmailPage";
 import Minimart from "./pages/MinimartPage";
 import Cart from "./pages/Cart";
 import CreateRecipe from "./pages/CreateRecipe";
+import CategoryPage from "./pages/CategoryPage";
+import Search from "./pages/Search";
+import MinimartCategory from "./pages/MinimartCategory";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<CreateAccount />} />
         <Route path="/minimart" element={<Minimart />} />
+        {/* <Route
+          path="/product-category/:category"
+          element={<MinimartCategory />}
+        /> */}
         <Route path="/minimart/cart" element={<Cart />} />
+        <Route path="/search" element={<Search />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route path="/userprofile" element={<ProtectedPage />}>

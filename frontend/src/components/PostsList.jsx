@@ -67,6 +67,7 @@ const PostsList = () => {
             category={post.category}
             servings={post.servings}
             cooktime={post.cookTime}
+            difficulty={post.difficulty}
           />
         ))}
       </div>

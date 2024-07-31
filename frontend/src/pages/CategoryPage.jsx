@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { useParams } from "react-router-dom";
-//import CategoryWrapper from "./CategoryWrapper";
-import ItemCategory from "./ItemCategory";
-import MinimartCard from "../components/MinimartCard";
+import CategoryWrapper from "./CategoryWrapper";
+import Card from "../components/Card";
 import axios from "axios";
 import { apiStart } from "../../api";
+import Postcard from "../components/Postcard";
 
-const MinimartCategory = () => {
+const CategoryPage = () => {
   const { category } = useParams();
-  console.log(category);
-  const [products, setProducts] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,10 +17,8 @@ const MinimartCategory = () => {
     const fetchCategoryData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(
-          `${apiStart}/api/product-category/${category}`
-        );
-        setProducts(response.data);
+        const response = await axios.get(`${apiStart}/api/recipe/${category}`);
+        setItems(response.data);
       } catch (error) {
         setError(error.message || "Error loading category");
       } finally {
@@ -30,7 +27,7 @@ const MinimartCategory = () => {
     };
     fetchCategoryData();
   }, [category]);
-  console.log(products);
+
   return (
     <div>
       <Header />
@@ -39,19 +36,27 @@ const MinimartCategory = () => {
           {category}
         </h1>
         <div className="flex justify-center w-full">
-          <ItemCategory />
+          <CategoryWrapper />
         </div>
         {loading && <p>Loading...</p>}
         {error && <p>{error}</p>}
-        <ul className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
-          {items &&
-            items.map((product) => (
-              <MinimartCard item={product} key={product._id} />
-            ))}
+        <ul className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[1100px] gap-x-4 gap-y-8 mx-auto">
+          {items.map((item) => (
+            <Postcard
+              imageUrl={item.photo}
+              likesCount={item.recipeLikeCount}
+              caption={item.name}
+              preptime={item.prepTime}
+              category={item.category}
+              servings={item.servings}
+              cooktime={item.cookTime}
+              difficulty={item.difficulty}
+            />
+          ))}
         </ul>
       </div>
     </div>
   );
 };
 
-export default MinimartCategory;
+export default CategoryPage;

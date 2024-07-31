@@ -12,6 +12,7 @@ const Postcard = ({
   category,
   servings,
   cooktime,
+  difficulty,
 }) => {
   const categoryStyles = {
     Entrees: { backgroundColor: "#f0f5c4", color: "#59871f" },
@@ -29,8 +30,8 @@ const Postcard = ({
   return (
     <a
       href="#"
-      className="block rounded-lg p-2 shadow-md shadow-indigo-100 overflow-hidden"
-      style={{ width: "230px", height: "430px" }}
+      className="block rounded-lg p-2 shadow-md shadow-indigo-100 overflow-hidden h-[430px] w-full"
+      // style={{ width: "230px", height: "430px" }}
     >
       <div className="relative w-full h-2/3">
         <img
@@ -73,6 +74,11 @@ const Postcard = ({
           >
             {category}
           </button>
+          <div className="py-2 px-4 font-medium text-sm rounded-full shadow-md hover:shadow-lg transition duration-300 bg-yellow-100">
+            <span className="font-medium text-sm text-gray-600">
+              {difficulty}
+            </span>
+          </div>
         </div>
       </div>
     </a>
