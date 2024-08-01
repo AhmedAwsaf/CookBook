@@ -1,66 +1,67 @@
 import React, { useState } from "react";
 import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
 
-const CartItems = () => {
+const CartItems = ({ cart, setCart }) => {
   // Dummy data for cart items
-  const initialCartItems = [
-    {
-      name: "Apple",
-      quantity: 2,
-      price: 30,
-      imageUrl:
-        "https://images.unsplash.com/photo-1590005354167-6da97870c757?q=80&w=1781&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Banana",
-      quantity: 3,
-      price: 20,
-      imageUrl:
-        "https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=1915&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Orange",
-      quantity: 1,
-      price: 25,
-      imageUrl:
-        "https://images.unsplash.com/photo-1586439702132-55ce0da661dd?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Milk",
-      quantity: 1,
-      price: 50,
-      imageUrl:
-        "https://images.unsplash.com/photo-1559181567-c3190ca9959b?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Bread",
-      quantity: 2,
-      price: 15,
-      imageUrl:
-        "https://images.unsplash.com/photo-1554795808-3231c32711cf?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      name: "Eggs",
-      quantity: 1,
-      price: 60,
-      imageUrl:
-        "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+  // const initialCartItems = [
+  //   {
+  //     name: "Apple",
+  //     quantity: 2,
+  //     price: 30,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1590005354167-6da97870c757?q=80&w=1781&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     name: "Banana",
+  //     quantity: 3,
+  //     price: 20,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1528825871115-3581a5387919?q=80&w=1915&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     name: "Orange",
+  //     quantity: 1,
+  //     price: 25,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1586439702132-55ce0da661dd?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     name: "Milk",
+  //     quantity: 1,
+  //     price: 50,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1559181567-c3190ca9959b?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     name: "Bread",
+  //     quantity: 2,
+  //     price: 15,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1554795808-3231c32711cf?q=80&w=1936&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  //   {
+  //     name: "Eggs",
+  //     quantity: 1,
+  //     price: 60,
+  //     imageUrl:
+  //       "https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  //   },
+  // ];
 
-  const [cartItems, setCartItems] = useState(initialCartItems);
+  //const [cartItems, setCartItems] = useState(initialCartItems);
 
+  const cartItems = cart;
   const handleIncreaseQuantity = (index) => {
     const newCartItems = [...cartItems];
     newCartItems[index].quantity += 1;
-    setCartItems(newCartItems);
+    setCart(newCartItems);
   };
 
   const handleDecreaseQuantity = (index) => {
     const newCartItems = [...cartItems];
     if (newCartItems[index].quantity > 1) {
       newCartItems[index].quantity -= 1;
-      setCartItems(newCartItems);
+      setCart(newCartItems);
     }
   };
 

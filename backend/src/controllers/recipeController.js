@@ -91,9 +91,43 @@ const getSearchedRecipe = async (req, res) => {
   }
 };
 
+const addComment = async (req, res) => {
+  const { recipeID } = req.body;
+  const { comment } = req.body;
+  const { userId } = req.body;
+
+  try {
+    const recipe = await Recipe.findById(recipeID);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    const newComment = {
+      commentedBy: userId,
+      comment,
+    };
+
+    recipe.comments.push(newComment);
+    await recipe.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Comment added successfully",
+      data: newComment,
+    });
+  } catch (error) {
+    console.error("Error adding comment:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getCategory,
   getSearchedRecipe,
+  addComment,
 };

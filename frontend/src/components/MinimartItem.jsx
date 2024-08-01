@@ -1,7 +1,15 @@
 import React from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
-const MinimartItem = ({ imageUrl, Name, Description, Price, unit }) => {
+const Itemcard = ({
+  imageUrl,
+  Name,
+  Description,
+  Price,
+  unit,
+  setCart,
+  addCart,
+}) => {
   return (
     <div
       className="block rounded-lg p-2 shadow-sm shadow-indigo-100"
@@ -33,7 +41,11 @@ const MinimartItem = ({ imageUrl, Name, Description, Price, unit }) => {
                 Tk.{Price}/{unit}
               </dd>
             </div>
-            <button>
+            <button
+              onClick={() =>
+                addCart({ name: Name, price: Price, imageUrl, quantity: 1 })
+              }
+            >
               <HiOutlineShoppingCart className="h-6 w-6" />
             </button>
           </div>
@@ -43,4 +55,4 @@ const MinimartItem = ({ imageUrl, Name, Description, Price, unit }) => {
   );
 };
 
-export default MinimartItem;
+export default Itemcard;

@@ -84,6 +84,8 @@ const Search = () => {
       <ul className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[1100px] gap-x-4 gap-y-8 mx-auto">
         {results.map((item) => (
           <Postcard
+            key={item._id}
+            recipeID={item._id}
             imageUrl={item.photo}
             likesCount={item.recipeLikeCount}
             caption={item.name}
@@ -92,6 +94,10 @@ const Search = () => {
             servings={item.servings}
             cooktime={item.cookTime}
             difficulty={item.difficulty}
+            instructions={item.instructions}
+            comments={item.comments}
+            tags={item.tags}
+            ingredients={item.ingredients}
           />
         ))}
       </ul>
