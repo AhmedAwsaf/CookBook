@@ -54,6 +54,15 @@ const Loginco = () => {
             We've missed you! Sign in below to continue exploring and enjoying
             all the amazing features we have to offer.
           </p>
+<<<<<<< Updated upstream
+=======
+          <p className="text-sm text-gray-500 mt-2">
+            No account?
+            <Link className="underline mx-2" to="/signup">
+              Sign up
+            </Link>
+          </p>
+>>>>>>> Stashed changes
         </div>
 
         <form

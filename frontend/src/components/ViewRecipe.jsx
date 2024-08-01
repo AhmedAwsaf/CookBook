@@ -61,7 +61,7 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
             <h1 className="text-3xl font-semibold">{recipe.name}</h1>
             <button
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 focus:outline-none fixed top-12 right-[340px] z-50"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none right-[340px] z-50"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
