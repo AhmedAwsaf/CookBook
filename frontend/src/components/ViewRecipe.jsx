@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import CommentSection from "./CommentSection";
 import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
 import { FaRegHeart } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { apiStart } from "../../api";
 
 const ViewRecipe = ({ onClose, recipe, isOpen }) => {
   const categoryStyles = {
@@ -52,11 +55,11 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
 
         {/* Recipe Details */}
         <div className="p-6 flex-1 overflow-auto ">
-          <div className="flex justify-between items-start relative">
+          <div className="flex justify-between items-start ">
             <h1 className="text-3xl font-semibold mb-4">{recipe.name}</h1>
             <button
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 focus:outline-none fixed top-12 right-[340px]"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

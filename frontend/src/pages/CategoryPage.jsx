@@ -61,6 +61,7 @@ const CategoryPage = () => {
                   comments={item.comments}
                   tags={item.tags}
                   ingredients={item.ingredients}
+                  createdBy={item.createdBy}
                 />
               );
             })}
