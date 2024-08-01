@@ -18,6 +18,7 @@ const PostCard = ({
   comments,
   ingredients,
   tags,
+  createdBy,
 }) => {
   const categoryStyles = {
     Entrees: { backgroundColor: "#f0f5c4", color: "#59871f" },
@@ -51,6 +52,7 @@ const PostCard = ({
     photo: imageUrl,
     likes: likesCount,
     comments,
+    createdBy,
   };
 
   const openModal = () => {
@@ -102,7 +104,7 @@ const PostCard = ({
             </div>
           </div>
           <div className="flex items-center gap-x-2 pb-2">
-            <button
+            <div
               className="py-2 px-4 font-medium text-sm rounded-full shadow-md hover:shadow-lg transition duration-300"
               style={{
                 backgroundColor: categoryStyle.backgroundColor,
@@ -110,7 +112,7 @@ const PostCard = ({
               }}
             >
               {category}
-            </button>
+            </div>
             <div className="py-2 px-4 font-medium text-sm rounded-full shadow-md hover:shadow-lg transition duration-300 bg-yellow-100 text-yellow-600">
               {difficulty}
             </div>

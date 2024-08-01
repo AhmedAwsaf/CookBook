@@ -5,12 +5,28 @@ import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 import { apiStart } from "../../api";
 
+import axios from "axios";
+
 const UserProfile = () => {
   // Example data, replace with actual data
-  const postsCount = 120;
-  const followersCount = 350;
-  const followingCount = 85;
   const { userObj } = useAuth();
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    async function getUserPosts() {
+      try {
+        console.log(userObj._id);
+        const response = await axios.post(
+          `${apiStart}/api/recipe/userRecipes`,
+          { createdBy: userObj?._id }
+        );
+        console.log(response.data);
+        setPosts(response.data.length);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUserPosts();
+  }, []);
 
   return (
     <div className="p-6 max-w-screen-md mx-auto">
@@ -37,9 +53,9 @@ const UserProfile = () => {
         <p className="text-sm text-gray-600">{userObj?.bio}</p>
       </div>
       <UserProfileStat
-        postsCount={postsCount}
-        followersCount={followersCount}
-        followingCount={followingCount}
+        postsCount={posts}
+        followersCount={userObj?.UserLikeCount}
+        followingCount={userObj?.creditPoints}
       />
     </div>
   );

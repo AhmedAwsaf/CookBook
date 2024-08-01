@@ -76,15 +76,6 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
                 <HiArrowRightStartOnRectangle size={28} />
               </button>
             </li>
-            <li>
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
-            </li>
           </>
         ) : (
           <>
