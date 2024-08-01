@@ -1,75 +1,117 @@
+// import React, { useState } from "react";
+// import CommentCard from "./CommentCard";
+
+// const CommentSection = ({ comments }) => {
+//   return (
+//     <div className="mt-6">
+//       <h2 class="text-xl font-semibold">Comments</h2>
+//       <div class="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+//         <div class="mb-4">
+//           {/* <h2 class="text-xl font-semibold">Comments</h2> */}
+//         </div>
+//         <div class="mb-4 max-h-64 overflow-y-auto">
+//           {comments?.map((comment) => (
+//             <CommentCard
+//               key={comment.commentedBy} //uniquely browser distinguish
+//               commentedBy={comment.commentedBy}
+//               comment={comment.comment}
+//             />
+//           ))}
+//         </div>
+
+//         <div class="flex items-center border-t pt-4">
+//           <input
+//             type="text"
+//             class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+//             placeholder="Add a comment..."
+//           />
+//           <button class="text-teal-600 hover:text-teal-800 ml-2 font-medium">
+//             Post
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default CommentSection;
 import React, { useState } from "react";
+import CommentCard from "./CommentCard";
+import { useAuth } from "../contexts/AuthContext";
+import { apiStart } from "../../api";
+import axios from "axios";
 
-const CommentSection = () => {
+const CommentSection = ({ comments, recipeID }) => {
+  const [newComment, setNewComment] = useState("");
+  const { userObj, isAuthenticated } = useAuth();
+  const [recipeComments, setRecipeComments] = useState(comments || []);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handlePostComment = async () => {
+    if (!newComment.trim()) return;
+
+    try {
+      setIsLoading(true);
+      const response = await axios.post(`${apiStart}/api/recipe/comments`, {
+        recipeID,
+        comment: newComment,
+        userId: userObj?._id,
+      });
+
+      setRecipeComments((previousComments) => [
+        ...previousComments,
+        response.data.data,
+      ]);
+    } catch (error) {
+      console.error("Error:", error);
+    } finally {
+      setIsLoading(false);
+      setNewComment("");
+    }
+  };
+
   return (
-    <div className="mt-6">
-      <h2 class="text-xl font-semibold">Comments</h2>
-      <div class="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
-        <div class="mb-4">
-          {/* <h2 class="text-xl font-semibold">Comments</h2> */}
-        </div>
-        <div class="mb-4 max-h-64 overflow-y-auto">
-          <div class="flex items-start mb-4">
-            <img
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT-c1eMA0FE5304KBT4e7Pc6x_8eKm3Yk_MUw&s"
-              alt="User Avatar"
-              class="w-10 h-10 rounded-full object-cover mr-3"
-            />
-            <div>
-              <div class="flex items-center">
-                <span class="font-medium">john_doe</span>
-                <span class="text-gray-500 text-xs ml-2">2 hours ago</span>
-              </div>
-              <p class="text-gray-800">
-                This recipe looks amazing! Can't wait to try it out.
-              </p>
-            </div>
+    <div className="mt-2">
+      <h2 className="text-xl font-semibold mb-2">Comments</h2>
+      <div className="max-w-full mx-auto p-4 bg-white rounded-lg shadow-md">
+        {recipeComments.length > 0 ? (
+          <div className="mb-2 max-h-64 overflow-y-auto">
+            {recipeComments?.map((comment) => (
+              <CommentCard
+                key={comment._id}
+                commentedBy={comment.commentedBy}
+                comment={comment.comment}
+              />
+            ))}
           </div>
+        ) : (
+          <h2 className="text-sm font-semibold text-gray-400 text-center mb-2">
+            No comments yet
+          </h2>
+        )}
 
-          <div class="flex items-start mb-4">
-            <img
-              src="https://i0.wp.com/buddymantra.com/wp-content/uploads/2019/09/chef-posing.jpg"
-              alt="User Avatar"
-              class="w-10 h-10 rounded-full object-cover mr-3"
+        {isAuthenticated ? (
+          <div className="flex items-center border-t pt-4">
+            <input
+              type="text"
+              className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+              placeholder="Add a comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
             />
-            <div>
-              <div class="flex items-center">
-                <span class="font-medium">jane_smith</span>
-                <span class="text-gray-500 text-xs ml-2">1 hour ago</span>
-              </div>
-              <p class="text-gray-800">
-                Tried this recipe last night, and it was delicious!
-              </p>
-            </div>
+            <button
+              className="text-teal-600 hover:text-teal-800 ml-2 font-medium"
+              onClick={handlePostComment}
+              disabled={isLoading}
+            >
+              {isLoading ? "Posting..." : "Post"}
+            </button>
           </div>
-
-          <div class="flex items-start mb-4">
-            <img
-              src="https://media.istockphoto.com/id/1394055240/photo/happy-black-female-chef-preparing-food-in-frying-pan-at-restaurant-kitchen.webp?b=1&s=170667a&w=0&k=20&c=8pARCDQkmc8X6SUnWQBY7MAdYVBSxbH8PBS3sJxLOiE="
-              alt="User Avatar"
-              class="w-10 h-10 rounded-full object-cover mr-3"
-            />
-            <div>
-              <div class="flex items-center">
-                <span class="font-medium">chef_antonio</span>
-                <span class="text-gray-500 text-xs ml-2">30 minutes ago</span>
-              </div>
-              <p class="text-gray-800">
-                Love the use of fresh ingredients here. Great job!
-              </p>
-            </div>
+        ) : (
+          <div className="mt-2 text-sm text-gray-400 text-center font-semibold">
+            Please log in to comment on this recipe
           </div>
-        </div>
-        <div class="flex items-center border-t pt-4">
-          <input
-            type="text"
-            class="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
-            placeholder="Add a comment..."
-          />
-          <button class="text-teal-600 hover:text-teal-800 ml-2 font-medium">
-            Post
-          </button>
-        </div>
+        )}
       </div>
     </div>
   );

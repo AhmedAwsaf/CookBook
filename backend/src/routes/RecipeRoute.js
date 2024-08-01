@@ -5,6 +5,7 @@ const {
   getAllRecipes,
   getCategory,
   getSearchedRecipe,
+  addComment,
 } = require("../controllers/recipeController");
 
 // Create a recipe
@@ -16,5 +17,7 @@ router.post("/userRecipes", getAllRecipes);
 router.get("/:category", getCategory);
 
 router.get("/search/:q", getSearchedRecipe);
+
+router.post("/comments", addComment);
 
 module.exports = router;

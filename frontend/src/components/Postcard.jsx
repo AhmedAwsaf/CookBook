@@ -6,6 +6,7 @@ import { GiCampCookingPot } from "react-icons/gi";
 import ViewRecipe from "./ViewRecipe";
 
 const PostCard = ({
+  recipeID,
   imageUrl,
   likesCount,
   caption,
@@ -20,6 +21,7 @@ const PostCard = ({
   tags,
   createdBy,
 }) => {
+  //console.log(comments);
   const categoryStyles = {
     Entrees: { backgroundColor: "#f0f5c4", color: "#59871f" },
     Breakfast: { backgroundColor: "#efedfa", color: "#3c3a8f" },
@@ -40,6 +42,7 @@ const PostCard = ({
   const [selectedRecipe, setSelectedRecipe] = useState(null);
 
   const recipeData = {
+    recipeID,
     name: caption,
     category,
     instructions,
@@ -64,7 +67,7 @@ const PostCard = ({
     setIsModalOpen(false);
     setSelectedRecipe(null);
   };
-
+  //if (isModalOpen) console.log(selectedRecipe.comments);
   return (
     <>
       <div
