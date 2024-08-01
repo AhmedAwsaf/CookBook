@@ -60,4 +60,74 @@ const getAllRecipes = async (req, res) => {
   }
 };
 
-module.exports = { createRecipe, getAllRecipes };
+const getCategory = async (req, res) => {
+  const { category } = req.params;
+  console.log(`Fetching data for category: ${category}`);
+
+  try {
+    const recipes = await Recipe.find({ category });
+    console.log(`Items found: ${recipes.length}`);
+    if (recipes.length === 0) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json(recipes);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+const getSearchedRecipe = async (req, res) => {
+  const { q } = req.params;
+  console.log("search working");
+  try {
+    let recipes = [];
+    if (q) {
+      recipes = await Recipe.find({ name: { $regex: q, $options: "i" } });
+    }
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json({ message: "No items found!" });
+  }
+};
+
+const addComment = async (req, res) => {
+  const { recipeID } = req.body;
+  const { comment } = req.body;
+  const { userId } = req.body;
+
+  try {
+    const recipe = await Recipe.findById(recipeID);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    const newComment = {
+      commentedBy: userId,
+      comment,
+    };
+
+    recipe.comments.push(newComment);
+    await recipe.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Comment added successfully",
+      data: newComment,
+    });
+  } catch (error) {
+    console.error("Error adding comment:", error.message);
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+module.exports = {
+  createRecipe,
+  getAllRecipes,
+  getCategory,
+  getSearchedRecipe,
+  addComment,
+};

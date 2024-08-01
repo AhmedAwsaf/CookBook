@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-import { apiStart } from "../../api";
 import {
-  HiArrowRightStartOnRectangle,
-  HiOutlineShoppingCart,
+  HiArrowRightOnRectangle,
   HiOutlineUserCircle,
+  HiCheckCircle,
+  HiOutlineShoppingCart,
 } from "react-icons/hi2";
+import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
+import { apiStart } from "../../api";
 
 const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
-  const { isAuthenticated, setIsAuthenticated, setUserObj } = useAuth();
+  const { checkTokenValidity, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   function handleLogOut() {
-    setIsAuthenticated(false);
-    setUserObj({});
     localStorage.removeItem("loginToken");
+    checkTokenValidity();
     navigate("/");
   }
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
     <div className="h-16 flex justify-between items-center px-6 lg:px-12">
       <a href="/">
-        <img src={Logo} alt="logo" className="h-12 w-auto ml-30" />{" "}
-        {/* Adjust ml-4 as needed */}
+        <img src={Logo} alt="logo" className="h-12 w-auto" />
       </a>
       <ul className="flex gap-7">
         <li>
@@ -48,8 +55,6 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
           </Link>
         </li>
       </ul>
-      {/* login and signup button  */}
-
       <ul className="flex items-center gap-4 font-medium">
         {isAuthenticated ? (
           <>
@@ -65,44 +70,93 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
             </li>
             <li>
               <button
-                className="pt-1 hover:text-teal-600"
                 onClick={handleLogOut}
+                className="pt-1 hover:text-teal-600"
               >
                 <HiArrowRightStartOnRectangle size={28} />
               </button>
             </li>
-<<<<<<< Updated upstream
-=======
-            {/* <li>
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
-            </li> */}
->>>>>>> Stashed changes
           </>
         ) : (
           <>
             <li>
               <Link to="/login">
-                <button className="text-secondary px-4 py-2 rounded">
+                <button className="text-secondary px-4 py-4 rounded">
                   Log In
                 </button>
               </Link>
             </li>
+
             <li>
               <Link to="/signup">
-                <button className="text-secondary px-4 py-2 rounded">
-                  Sign Up
+                <button className="text-secondary px-4 py-4 rounded">
+                  Sign up
                 </button>
               </Link>
             </li>
           </>
         )}
       </ul>
+      {/* <div className="flex items-center gap-4 font-medium">
+        {userProfile ? (
+          <>
+            <div className="flex items-center gap-4">
+              <h1 className="my-auto">{userProfile.username}</h1>
+              <Link to="/userprofile" className="block py-2 text-gray-800">
+                <img
+                  src={
+                    `${apiStart}${userProfile.photo}` ||
+                    `${apiStart}/default-profile.png`
+                  } // Placeholder image
+                  alt="profile"
+                  className="h-10 w-10 rounded-full"
+                />
+              </button>
+              {dropdownOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg">
+                  <Link
+                    to="/userprofile"
+                    className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
+                    onClick={() => setDropdownOpen(false)}
+                  >
+                    User Profile
+                  </Link>
+                  <button
+                    className="flex w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100"
+                    onClick={() => {
+                      onLogout();
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    Logout
+                    <HiArrowRightOnRectangle size={20} className="mx-2" />
+                  </button>
+                </div>
+              )}
+            </div> */}
+      {/* {!userProfile.isVerified && (
+              <Link to="/verify-email">
+                <button className="px-4 py-2 rounded text-red-700 border border-red-600">
+                  Verify Email
+                </button>
+              </Link>
+            )}
+          </>
+        ) : (
+          <>
+            <Link to="/login">
+              <button className="text-secondary px-4 py-2 rounded">
+                Log In
+              </button>
+            </Link>
+            <Link to="/signup">
+              <button className="text-secondary px-4 py-2 rounded">
+                Sign Up
+              </button>
+            </Link>
+          </>
+        )}
+      </div> */}
     </div>
   );
 };

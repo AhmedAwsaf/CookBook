@@ -1,5 +1,5 @@
 import React from "react";
-import FadeLoader from "react-spinners/FadeLoader";
+import FryingpanSpinner from "../components/FryingpanSpinner";
 
 // export default function Loadingpage() {
 //   return (
@@ -10,9 +10,5 @@ import FadeLoader from "react-spinners/FadeLoader";
 // }
 
 export default function Loadingpage() {
-  return (
-    <div className="flex justify-center items-center min-h-screen">
-      <FadeLoader />
-    </div>
-  );
+  return <FryingpanSpinner extraClassName={"min-h-screen"} />;
 }

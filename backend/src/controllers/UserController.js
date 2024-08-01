@@ -1,7 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const User = require("../model/User");
+
+const beapistart = "http://localhost:5001";
+
+const feapistart = "http://localhost:5173"
+
+//GET USER DATA
 
 const getallusers = async (req, res) => {
   try {
@@ -63,6 +70,7 @@ const getmyuser = async (req, res) => {
   }
 };
 
+// Create new user
 const createUser = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -73,7 +81,6 @@ const createUser = async (req, res) => {
     `);
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res
@@ -81,11 +88,9 @@ const createUser = async (req, res) => {
         .json({ success: false, message: "Username or email already exists" });
     }
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = new User({
       username,
       email,
@@ -94,10 +99,15 @@ const createUser = async (req, res) => {
 
     await newUser.save();
 
+    const token = jwt.sign({ id: user._id, role: user.role }, "secret", {
+      expiresIn: "24h",
+    });
+
     res.status(201).json({
       success: true,
       message: "User created successfully",
       data: newUser,
+      token: token,
     });
   } catch (error) {
     res
@@ -106,6 +116,7 @@ const createUser = async (req, res) => {
   }
 };
 
+// Login a user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -127,7 +138,7 @@ const loginUser = async (req, res) => {
     }
 
     const token = jwt.sign({ id: user._id, role: user.role }, "secret", {
-      expiresIn: "1h",
+      expiresIn: "24h",
     });
 
     res.status(200).json({
@@ -143,15 +154,209 @@ const loginUser = async (req, res) => {
   }
 };
 
-//edit user
+
+//  Verfication email
+const sendverifyemail = async(req, res) => {
+  console.log("Sending Verification Email")
+
+  const id = req.user.id;
+
+  try {
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      console.log("User not found");
+      return res.status(400).json({ success: false, message: "Invalid email" });
+    }
+
+    const verifytoken = jwt.sign(
+      { id: user._id, role: user.role },
+      "emailverify",
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.ethereal.email",
+      port: 587,
+      auth: {
+        user: "zakary.sawayn78@ethereal.email",
+        pass: "qxVy48M8FjvqU6ABD9",
+      },
+    });
+
+    const mailOptions = {
+      from: "zakary.sawayn78@ethereal.email",
+      to: user.email,
+      subject: "Email Verification for Recipe",
+      text: `Step-1 of you recipe building experience is to get verified. Click below: 
+      ${feapistart}/verify-email?token=${verifytoken}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Email sent: " + info.response);
+    });
+
+    res.json({ success: true, message: "Verification sent", user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const verifyemail = async (req, res) => {
+  console.log("VERIFYING");
+  const { token } = req.query;
+
+  if (!token) {
+    return res.status(400).send("Verification token is missing");
+  }
+
+  try {
+    const decoded = jwt.verify(token, "emailverify");
+    const id = decoded.id;
+
+    const user = await User.findById(id).select("-password");
+    if (!user) {
+      return res.status(400).send("User not found");
+    }
+
+    if (user.isVerified) {
+      return res.status(400).send("User already verified");
+    }
+
+    user.isVerified = true;
+
+    await user.save();
+
+    res.status(200).send("Email verified successfully");
+  } catch (error) {
+    res.status(400).send("Invalid or expired token");
+  }
+};
+
+// Forget password
+const sendforgeturl = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'User not found' });
+    }
+
+    const token = jwt.sign({ id: user._id }, 'I_forgOt', { expiresIn: '1h' });
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+          user: 'zakary.sawayn78@ethereal.email',
+          pass: 'qxVy48M8FjvqU6ABD9'
+      }
+    });
+
+    const mailOptions = {
+      from: 'zakary.sawayn78@ethereal.email',
+      to: user.email,
+      subject: 'Password Reset Link',
+      text: `Click the following link to reset your password: ${feapistart}/forget-password?token=${token}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).json({ success: false, message: 'Error sending email', error });
+      }
+      res.status(200).json({ success: true, message: 'Password reset link sent' });
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, 'I_forgOt');
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Invalid token' });
+    }
+
+    // console.log(user)
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
+
+    console.log("USER password changed")
+    res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid or expired token', error });
+  }
+};
+
+
+//Edit Users
 const editUser = async (req, res) => {
   const { username, bio, photo } = req.body;
   const userId = req.user.id;
 
   try {
-    // Find the user by ID and update their profile
     const user = await User.findByIdAndUpdate(
       userId,
+      { username, bio, photo },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ success: true, message: "Profile updated successfully", user });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    const user = await User.findByIdAndDelete(id);
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+const aeditUser = async (req, res) => {
+  const { username, bio, photo, changeId } = req.body;
+  const userId = req.user.id;
+
+  const admin = await User.findById(userId);
+
+  if (admin.role != "admin") {
+    return res.status(404).json({ message: "You are not authorized" });
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      changeId,
       { username, bio, photo },
       { new: true }
     );
@@ -170,7 +375,18 @@ module.exports = {
   getallusers,
   getUser,
   getmyuser,
+
   createUser,
+
   loginUser,
+
+  sendverifyemail,
+  verifyemail,
+
+  sendforgeturl,
+  resetPassword,
+  
   editUser,
+  aeditUser,
+  deleteUser
 };

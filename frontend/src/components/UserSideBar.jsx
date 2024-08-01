@@ -1,21 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import axios from "axios";
+import { apiStart } from "../../api";
 import { Link, useNavigate } from "react-router-dom";
 
 const UserSideBar = () => {
   const { isAuthenticated, setIsAuthenticated, userObj, checkTokenValidity } =
     useAuth();
   const navigate = useNavigate();
-<<<<<<< Updated upstream
-=======
+
   const [showModal, setShowModal] = useState(false);
 
->>>>>>> Stashed changes
   function handleLogOut() {
     setIsAuthenticated(false);
     localStorage.removeItem("loginToken");
     navigate("/");
   }
+
+  function handleDelete() {
+    setShowModal(true);
+  }
+
+  async function confirmDelete() {
+    try {
+      console.log(userObj._id);
+      const response = await axios.post(
+        `${apiStart}/api/user/delete`,
+        {
+          id: userObj._id,
+        },
+        { headers: { Authorization: localStorage.getItem("loginToken") } }
+      );
+      if (response.data.success) {
+        setShowModal(false);
+        localStorage.removeItem("loginToken");
+        checkTokenValidity();
+      } else {
+        console.error("Failed to delete account:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error deleting account:", error);
+    }
+  }
+
   return (
     <div className="flex flex-col justify-between border-e bg-white">
       <div className="px-4 py-1">
@@ -67,7 +94,7 @@ const UserSideBar = () => {
                   >
                     <path
                       fillRule="evenodd"
-                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 111.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
                       clipRule="evenodd"
                     />
                   </svg>
@@ -76,49 +103,27 @@ const UserSideBar = () => {
 
               <ul className="mt-2 space-y-1 px-4">
                 <li>
-<<<<<<< Updated upstream
-                  <a
-                    href="#"
-                    className="block rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-=======
                   <button
-                    className="w-full rounded-lg px-2 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
+                    className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
                     onClick={handleDelete}
->>>>>>> Stashed changes
                   >
-                    Security
-                  </a>
+                    Delete Account
+                  </button>
                 </li>
-
                 <li>
-<<<<<<< Updated upstream
-                  <form action="#">
-                    <button
-                      type="submit"
-                      className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
-                      onClick={handleLogOut}
-                    >
-                      Logout
-                    </button>
-                  </form>
-=======
-                  {!userObj.isVerified && (
-                    <Link
-                      className="w-full rounded-lg px-2 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
-                      to="/verify-email"
-                    >
-                      Verify Email
-                    </Link>
-                  )}
+                  <button className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700">
+                    {!userObj.isVerified && (
+                      <Link to="/verify-email">Verify Email</Link>
+                    )}
+                  </button>
                 </li>
                 <li>
                   <button
-                    className="w-full rounded-lg px-2 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
+                    className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
                     onClick={handleLogOut}
                   >
                     Logout
                   </button>
->>>>>>> Stashed changes
                 </li>
               </ul>
             </details>
@@ -146,8 +151,28 @@ const UserSideBar = () => {
           </div>
         </a>
       </div>
-<<<<<<< Updated upstream
-=======
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div className="bg-white p-4 rounded-lg shadow-lg">
+            <p className="mb-4">
+              This action cannot be undone. Do you want to proceed?
+            </p>
+            <button
+              className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+              onClick={confirmDelete}
+            >
+              Yes
+            </button>
+            <button
+              className="bg-gray-500 text-white px-4 py-2 rounded"
+              onClick={() => setShowModal(false)}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       {showModal && (
         // <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
@@ -194,8 +219,8 @@ const UserSideBar = () => {
           </div>
         </div>
       )}
->>>>>>> Stashed changes
     </div>
   );
 };
+
 export default UserSideBar;

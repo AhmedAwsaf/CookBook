@@ -8,7 +8,7 @@ const RecipeForm = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const { userObj } = useAuth();
-  console.log(userObj);
+  // console.log(userObj);
   const [recipe, setRecipe] = useState({
     name: "",
     category: "",

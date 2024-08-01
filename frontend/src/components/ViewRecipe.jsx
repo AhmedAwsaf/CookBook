@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import CommentSection from "./CommentSection";
-import {
-  HiOutlineChatBubbleOvalLeftEllipsis,
-  HiOutlineHeart,
-} from "react-icons/hi2";
-import { apiStart } from "../../api";
-import axios from "axios";
+import { HiOutlineChatBubbleOvalLeftEllipsis } from "react-icons/hi2";
+import { FaRegHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { apiStart } from "../../api";
 
 const ViewRecipe = ({ onClose, recipe, isOpen }) => {
   const categoryStyles = {
@@ -57,11 +55,11 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
 
         {/* Recipe Details */}
         <div className="p-6 flex-1 overflow-auto ">
-          <div className="flex justify-between items-start">
-            <h1 className="text-3xl font-semibold">{recipe.name}</h1>
+          <div className="flex justify-between items-start ">
+            <h1 className="text-3xl font-semibold mb-4">{recipe.name}</h1>
             <button
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 focus:outline-none right-[340px] z-50"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,26 +153,33 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
           </div>
 
           {/* Likes and Comments */}
-          <div className="flex flex-wrap items-center ">
-            <div className="flex items-center mr-4">
-              <span className="text-gray-600">
-                <button className="mt-2">
-                  <HiOutlineHeart className="mr-1 h-4 w-4 text-gray-600 cursor-pointer hover:text-red-500" />
-                </button>
-                {recipe.likes} Likes
-              </span>
+          <div className="flex flex-col">
+            <div className="flex gap-8">
+              <div className="flex items-center mr-4">
+                <span className="text-gray-600">
+                  <button className="mt-2">
+                    <FaRegHeart className="mr-1 h-6 w-6 text-gray-600 cursor-pointer hover:text-red-500" />
+                  </button>
+                  {recipe.likes} Likes
+                </span>
+              </div>
+              <div className="flex items-center mr-4">
+                <span className="text-gray-600">
+                  <button className="mt-2">
+                    <HiOutlineChatBubbleOvalLeftEllipsis className="mr-1 h-6 w-6 text-gray-600 cursor-pointer hover:text-red-500" />
+                  </button>
+                  {recipe?.comments?.length} Comments
+                </span>
+              </div>
             </div>
-            <div className="flex items-center mr-4">
-              <span className="text-gray-600">
-                <button className="mt-2">
-                  <HiOutlineChatBubbleOvalLeftEllipsis className="mr-1 h-4 w-4 text-gray-600 cursor-pointer hover:text-red-500" />
-                </button>
-                {recipe.likes} Comments
-              </span>
-            </div>
+
             <div>
               <span className="text-gray-600">
-                <CommentSection />
+                <CommentSection
+                  key={recipe?.recipeID}
+                  comments={recipe?.comments}
+                  recipeID={recipe?.recipeID}
+                />
               </span>
             </div>
           </div>

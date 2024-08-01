@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { apiStart } from "../../api";
 
 const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
@@ -8,9 +8,10 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  const navigate = useNavigate();
 
   return (
-    <nav className="h-16 flex justify-between items-center px-6 lg:px-12 bg-white shadow-md">
+    <nav className="h-16 flex justify-between items-center px-6 lg:px-12 bg-white shadow-md z-40">
       <a href="/">
         <img src={Logo} alt="logo" className="h-12 w-auto" />
       </a>
@@ -61,7 +62,7 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             <li>
               <button
                 onClick={onLogout}
-                className="text-secondary px-4 py-2 rounded bg-red-500 text-white"
+                className="text-secondary px-4 py-2 rounded"
               >
                 Log Out
               </button>
@@ -100,46 +101,7 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             </li>
           ))}
           {userProfile ? (
-            <>
-<<<<<<< Updated upstream
-=======
-              <li>
-                <Link to="/userprofile">
-                  <button className="text-secondary px-4 py-2 rounded">
-                    Userprofile
-                  </button>
-                </Link>
-              </li>
->>>>>>> Stashed changes
-              <li>
-                <img
-                  src={`${apiStart}${userProfile.photo}`}
-                  alt="User Profile"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-              </li>
-<<<<<<< Updated upstream
-=======
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
->>>>>>> Stashed changes
-              <li>
-                <button
-                  onClick={() => {
-                    toggleMobileMenu();
-                    onLogout();
-                  }}
-                  className="text-secondary px-4 py-2 rounded bg-red-500 text-white"
-                >
-                  Log Out
-                </button>
-              </li>
-            </>
+            <></>
           ) : (
             <>
               <li>

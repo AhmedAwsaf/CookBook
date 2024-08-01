@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
-import ItemList from "../components/ListofItems";
+
 import MinimartHero from "../components/MinimartHero";
 import ItemCategory from "./ItemCategory";
+import ItemList from "../components/ListofItems";
 
-const Minimart = () => {
+const Minimart = ({ setCart, addCart }) => {
   return (
     <div>
       <Header />
@@ -12,7 +13,7 @@ const Minimart = () => {
         <MinimartHero />
         <ItemCategory />
       </div>
-      <ItemList />
+      <ItemList setCart={setCart} addCart={addCart} />
     </div>
   );
 };

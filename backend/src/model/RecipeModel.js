@@ -25,11 +25,17 @@ const RecipeSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  recipeLikeCount: {
-    type: Number,
-    default: 0,
-  },
-  comments: [String],
+  recipeLikeCount: [mongoose.Schema.Types.ObjectId],
+  comments: [
+    {
+      commentedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      comment: String,
+    },
+  ],
 });
 
 module.exports = mongoose.model("Recipe", RecipeSchema);

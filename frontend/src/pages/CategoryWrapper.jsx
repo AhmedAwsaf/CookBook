@@ -10,7 +10,6 @@ function CategoryItem({ name, href, backgroundColor, color }) {
   return (
     <div className="m-2">
       {" "}
-      {/* Added margin to create the gap */}
       <Link to={href} className="rounded-full">
         <div
           className="capitalize px-6 py-2 text-center rounded-full"
@@ -27,38 +26,38 @@ function CategoryList() {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <CategoryItem
-        name="entrees"
-        href="/category/entrees"
+        name="Entrees"
+        href="/category/Entrees"
         backgroundColor="#f0f5c4"
         color="#59871f"
       />
       <CategoryItem
-        name="breakfast"
-        href="/category/breakfast"
+        name="Breakfast"
+        href="/category/Breakfast"
         backgroundColor="#efedfa"
         color="#3c3a8f"
       />
       <CategoryItem
-        name="lunch"
-        href="/category/lunch"
+        name="Lunch"
+        href="/category/Lunch"
         backgroundColor="#e5f7f3"
         color="#1f8787"
       />
       <CategoryItem
-        name="desserts"
-        href="/category/desserts"
+        name="Desserts"
+        href="/category/Desserts"
         backgroundColor="#e8f5fa"
         color="#397a9e"
       />
       <CategoryItem
-        name="sides"
-        href="/category/sides"
+        name="Sides"
+        href="/category/Sides"
         backgroundColor="#feefc9"
         color="#d16400"
       />
       <CategoryItem
-        name="drinks"
-        href="/category/drinks"
+        name="Drinks"
+        href="/category/Drinks"
         backgroundColor="#ffeae3"
         color="#f0493e"
       />

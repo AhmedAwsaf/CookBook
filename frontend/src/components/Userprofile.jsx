@@ -3,60 +3,37 @@ import UserProfileStat from "./UserProfileStat"; // Example profile picture
 import { useAuth } from "../contexts/AuthContext";
 import { HiMiniPencilSquare } from "react-icons/hi2";
 import { Link } from "react-router-dom";
-<<<<<<< Updated upstream
-=======
 import { apiStart } from "../../api";
+
 import axios from "axios";
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
 const UserProfile = () => {
-  const [postsCount, setPostsCount] = useState(0);
+  // Example data, replace with actual data
   const { userObj } = useAuth();
-<<<<<<< Updated upstream
-  console.log(userObj);
-  useEffect(() => {
-    async function getUserPosts() {
-      try {
-=======
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     async function getUserPosts() {
       try {
         console.log(userObj._id);
->>>>>>> Stashed changes
         const response = await axios.post(
           `${apiStart}/api/recipe/userRecipes`,
           { createdBy: userObj?._id }
         );
-<<<<<<< Updated upstream
-        setPostsCount(response.data.length);
-        console.log(response.data);
-=======
         console.log(response.data);
         setPosts(response.data.length);
->>>>>>> Stashed changes
       } catch (error) {
         console.log(error);
       }
     }
     getUserPosts();
   }, []);
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
   return (
     <div className="p-6 max-w-screen-md mx-auto">
       <div className="flex items-center space-x-4 mb-6">
         <img
-<<<<<<< Updated upstream
-          src={userObj?.photo}
-=======
+          // src={userObj?.photo}
           src={`${apiStart}${userObj.photo}`}
->>>>>>> Stashed changes
           alt="Profile"
           className="h-24 w-24 rounded-full border-2 border-gray-300"
         />
@@ -76,11 +53,7 @@ const UserProfile = () => {
         <p className="text-sm text-gray-600">{userObj?.bio}</p>
       </div>
       <UserProfileStat
-<<<<<<< Updated upstream
-        postsCount={postsCount}
-=======
         postsCount={posts}
->>>>>>> Stashed changes
         followersCount={userObj?.UserLikeCount}
         followingCount={userObj?.creditPoints}
       />
