@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserProfileStat from "./UserProfileStat"; // Example profile picture
 import { useAuth } from "../contexts/AuthContext";
 import { HiMiniPencilSquare } from "react-icons/hi2";

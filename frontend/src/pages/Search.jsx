@@ -96,6 +96,7 @@ const Search = () => {
             comments={item.comments}
             tags={item.tags}
             ingredients={item.ingredients}
+            createdBy={item.createdBy}
           />
         ))}
       </ul>
