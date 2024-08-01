@@ -387,5 +387,6 @@ module.exports = {
   resetPassword,
   
   editUser,
-  aeditUser
+  aeditUser,
+  deleteUser
 };
