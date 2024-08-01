@@ -4,6 +4,9 @@ import {
   HiOutlineChatBubbleOvalLeftEllipsis,
   HiOutlineHeart,
 } from "react-icons/hi2";
+import { apiStart } from "../../api";
+import axios from "axios";
+import { Link } from "react-router-dom";
 
 const ViewRecipe = ({ onClose, recipe, isOpen }) => {
   const categoryStyles = {
@@ -22,6 +25,23 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
 
   const categoryStyle = getCategoryStyle(recipe.category);
 
+  const [username, setUsername] = useState([]);
+  useEffect(() => {
+    async function getUserPosts() {
+      try {
+        console.log(recipe.createdBy);
+        const response = await axios.get(
+          `${apiStart}/api/user/one/${recipe.createdBy}`
+        );
+        console.log(response.data);
+        setUsername(response.data.data.username);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getUserPosts();
+  }, []);
+
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -36,12 +56,12 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
         </div>
 
         {/* Recipe Details */}
-        <div className="p-6 flex-1 overflow-auto">
+        <div className="p-6 flex-1 overflow-auto ">
           <div className="flex justify-between items-start">
-            <h1 className="text-3xl font-semibold mb-4">{recipe.name}</h1>
+            <h1 className="text-3xl font-semibold">{recipe.name}</h1>
             <button
               onClick={onClose}
-              className="text-gray-600 hover:text-gray-800 focus:outline-none"
+              className="text-gray-600 hover:text-gray-800 focus:outline-none fixed top-12 right-[340px] z-50"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,9 +79,14 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
               </svg>
             </button>
           </div>
-
+          <div className="flex gap-1 items-center pb-1">
+            <p className="text-gray-950 text-sm">Posted by</p>
+            <Link to="#" className="text-gray-500 italic font-bold text-lg">
+              {username}
+            </Link>
+          </div>
           {/* Category and Difficulty */}
-          <div className="mb-4">
+          <div className="mb-4 mt-4">
             <div className="flex items-center gap-2 pb-2">
               <button
                 className="py-2 px-4 font-medium text-sm rounded-full shadow-md hover:shadow-lg transition duration-300"

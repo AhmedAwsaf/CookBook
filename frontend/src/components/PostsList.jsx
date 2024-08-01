@@ -73,6 +73,7 @@ const PostsList = () => {
             comments={post.comments}
             tags={post.tags}
             ingredients={post.ingredients}
+            createdBy={post.createdBy}
           />
         ))}
       </div>
