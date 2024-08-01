@@ -113,18 +113,13 @@ const UserSideBar = () => {
                 <li>
                   <button className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700">
                     {!userObj.isVerified && (
-                      <Link
-                        className="w-full rounded-lg px-2 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
-                        to="/verify-email"
-                      >
-                        Verify Email
-                      </Link>
+                      <Link to="/verify-email">Verify Email</Link>
                     )}
                   </button>
                 </li>
                 <li>
                   <button
-                    className="w-full rounded-lg px-2 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
+                    className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700"
                     onClick={handleLogOut}
                   >
                     Logout

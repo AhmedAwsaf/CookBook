@@ -62,7 +62,7 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             <li>
               <button
                 onClick={onLogout}
-                className="text-secondary px-4 py-2 rounded bg-red-500 text-white"
+                className="text-secondary px-4 py-2 rounded"
               >
                 Log Out
               </button>
@@ -101,48 +101,7 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
             </li>
           ))}
           {userProfile ? (
-            <>
-              <li>
-                <Link to="/userprofile">
-                  <button className="text-secondary px-4 py-2 rounded">
-                    Userprofile
-                  </button>
-                </Link>
-              </li>
-              <li>
-                <img
-                  src={`${apiStart}${userProfile.photo}`}
-                  alt="User Profile"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-              </li>
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
-
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
-              <li>
-                <button
-                  onClick={() => {
-                    toggleMobileMenu();
-                    onLogout();
-                  }}
-                  className="text-secondary px-4 py-2 rounded bg-red-500 text-white"
-                >
-                  Log Out
-                </button>
-              </li>
-            </>
+            <></>
           ) : (
             <>
               <li>
