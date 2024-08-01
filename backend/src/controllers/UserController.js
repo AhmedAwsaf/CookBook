@@ -6,7 +6,9 @@ const User = require("../model/User");
 
 const beapistart = "http://localhost:5001";
 
-const feapistart = "http://localhost:5173";
+const feapistart = "http://localhost:5173"
+
+//GET USER DATA
 
 const getallusers = async (req, res) => {
   try {
@@ -68,6 +70,7 @@ const getmyuser = async (req, res) => {
   }
 };
 
+// Create new user
 const createUser = async (req, res) => {
   const { username, email, password } = req.body;
 
@@ -78,7 +81,6 @@ const createUser = async (req, res) => {
     `);
 
   try {
-    // Check if user already exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res
@@ -86,11 +88,9 @@ const createUser = async (req, res) => {
         .json({ success: false, message: "Username or email already exists" });
     }
 
-    // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = new User({
       username,
       email,
@@ -116,6 +116,7 @@ const createUser = async (req, res) => {
   }
 };
 
+// Login a user
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -153,8 +154,10 @@ const loginUser = async (req, res) => {
   }
 };
 
-const sendverifyemail = async (req, res) => {
-  console.log("Sending");
+
+//  Verfication email
+const sendverifyemail = async(req, res) => {
+  console.log("Sending Verification Email")
 
   const id = req.user.id;
 
@@ -234,13 +237,76 @@ const verifyemail = async (req, res) => {
   }
 };
 
-//edit user
+// Forget password
+const sendforgeturl = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'User not found' });
+    }
+
+    const token = jwt.sign({ id: user._id }, 'I_forgOt', { expiresIn: '1h' });
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+          user: 'zakary.sawayn78@ethereal.email',
+          pass: 'qxVy48M8FjvqU6ABD9'
+      }
+    });
+
+    const mailOptions = {
+      from: 'zakary.sawayn78@ethereal.email',
+      to: user.email,
+      subject: 'Password Reset Link',
+      text: `Click the following link to reset your password: ${feapistart}/forget-password?token=${token}`
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).json({ success: false, message: 'Error sending email', error });
+      }
+      res.status(200).json({ success: true, message: 'Password reset link sent' });
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Server error', error });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token, password } = req.body;
+
+  try {
+    const decoded = jwt.verify(token, 'I_forgOt');
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Invalid token' });
+    }
+
+    // console.log(user)
+
+    const salt = await bcrypt.genSalt(10);
+    user.password = await bcrypt.hash(password, salt);
+    await user.save();
+
+    console.log("USER password changed")
+    res.status(200).json({ success: true, message: 'Password reset successfully' });
+  } catch (error) {
+    res.status(400).json({ success: false, message: 'Invalid or expired token', error });
+  }
+};
+
+
+//Edit Users
 const editUser = async (req, res) => {
   const { username, bio, photo } = req.body;
   const userId = req.user.id;
 
   try {
-    // Find the user by ID and update their profile
     const user = await User.findByIdAndUpdate(
       userId,
       { username, bio, photo },
@@ -289,7 +355,6 @@ const aeditUser = async (req, res) => {
   }
 
   try {
-    // Find the user by ID and update their profile
     const user = await User.findByIdAndUpdate(
       changeId,
       { username, bio, photo },
@@ -310,11 +375,17 @@ module.exports = {
   getallusers,
   getUser,
   getmyuser,
+
   createUser,
+
   loginUser,
+
   sendverifyemail,
-  editUser,
-  deleteUser,
   verifyemail,
-  aeditUser,
+
+  sendforgeturl,
+  resetPassword,
+  
+  editUser,
+  aeditUser
 };

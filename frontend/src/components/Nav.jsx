@@ -28,8 +28,7 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
   return (
     <div className="h-16 flex justify-between items-center px-6 lg:px-12">
       <a href="/">
-        <img src={Logo} alt="logo" className="h-12 w-auto" />{" "}
-        {/* Adjust ml-4 as needed */}
+        <img src={Logo} alt="logo" className="h-12 w-auto" />
       </a>
       <ul className="flex gap-7">
         <li>
@@ -110,9 +109,9 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
       {/* <div className="flex items-center gap-4 font-medium">
         {userProfile ? (
           <>
-            <div className="relative flex">
-              <h1 className="mr-4 my-auto">{userProfile.username}</h1>
-              <button onClick={toggleDropdown} className="focus:outline-none">
+            <div className="flex items-center gap-4">
+              <h1 className="my-auto">{userProfile.username}</h1>
+              <Link to="/userprofile" className="block py-2 text-gray-800">
                 <img
                   src={
                     `${apiStart}${userProfile.photo}` ||

@@ -9,6 +9,7 @@ import EditProfilePage from "./pages/EditProfilePage";
 import ProtectedPage from "./pages/ProtectedPage";
 import Userprofilepage from "./pages/Userprofilepage";
 import VerifyEmailPage from "./pages/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/ForgetPasswordPage";
 import Minimart from "./pages/MinimartPage";
 import Cart from "./pages/Cart";
 import CreateRecipe from "./pages/CreateRecipe";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/search" element={<Search />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
+        <Route path="/forget-password" element={<ForgotPasswordPage />} />
         <Route path="/userprofile" element={<ProtectedPage />}>
           <Route path="/userprofile" element={<Userprofilepage />} />
           <Route path="/userprofile/createrecipe" element={<CreateRecipe />} />
