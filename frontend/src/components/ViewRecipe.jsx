@@ -10,9 +10,15 @@ import { apiStart } from "../../api";
 import { useAuth } from "../contexts/AuthContext";
 import { FadeLoader } from "react-spinners";
 import SpinnerMini from "./SpinnerMini";
+  
+  
 
-const ViewRecipe = ({ onClose, recipe, isOpen }) => {
-  const { userObj } = useAuth();
+
+const ViewRecipe = ({ onClose, recipeId, isOpen }) => {
+  const [recipe, setRecipe] = useState({});
+  const [username, setUsername] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const categoryStyles = {
     Entrees: { backgroundColor: "#f0f5c4", color: "#59871f" },
     Breakfast: { backgroundColor: "#efedfa", color: "#3c3a8f" },
@@ -22,11 +28,6 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
     Drinks: { backgroundColor: "#ffeae3", color: "#f0493e" },
     default: { backgroundColor: "#fff", color: "#000" },
   };
-
-const ViewRecipe = ({ onClose, recipeId, isOpen }) => {
-  const [recipe, setRecipe] = useState({});
-  const [username, setUsername] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const { userObj, isAuthenticated } = useAuth();
   const getCategoryStyle = (category) => {
@@ -164,9 +165,11 @@ const ViewRecipe = ({ onClose, recipeId, isOpen }) => {
               </div>
               <div className="flex gap-1 items-center pb-1">
                 <p className="text-gray-950 text-sm">Posted by</p>
-                <Link to="#" className="text-gray-500 italic font-bold text-lg">
-                  {username}
-                </Link>
+                <Link to={ userObj._id === recipe.createdBy ? "/userprofile"  : `/viewprofilepage/${recipe.createdBy}`}
+              className="text-gray-500 italic font-bold text-lg"
+            >
+              {username}
+            </Link>
               </div>
               {/* Category and Difficulty */}
               <div className="mb-4 mt-4">
