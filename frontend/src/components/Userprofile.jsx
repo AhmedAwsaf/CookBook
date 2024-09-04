@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 import { apiStart } from "../../api";
 
 const UserProfile = () => {
-  // Example data, replace with actual data
   const postsCount = 120;
   const followersCount = 350;
   const followingCount = 85;
