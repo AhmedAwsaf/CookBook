@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
+import { Toaster } from "react-hot-toast";
 
 import LoginPage from "./pages/Loginpage";
 import CreateAccount from "./pages/CreateAccount";
@@ -18,6 +19,7 @@ import Search from "./pages/Search";
 
 import FryingpanSpinner from "./components/FryingpanSpinner";
 import { useState } from "react";
+import ViewOthersProfile from "./pages/ViewOthersProfile";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -29,39 +31,46 @@ function App() {
     });
   }
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/loader" element={<FryingpanSpinner />} />
-        <Route path="/category/:category" element={<CategoryPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<CreateAccount />} />
-        <Route
-          path="/minimart"
-          element={<Minimart setCart={setCart} addCart={addCart} />}
-        />
-        {/* <Route
+    <>
+      <Toaster position="bottom-right" reverseOrder={false} />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/loader" element={<FryingpanSpinner />} />
+          <Route path="/category/:category" element={<CategoryPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<CreateAccount />} />
+          <Route
+            path="/minimart"
+            element={<Minimart setCart={setCart} addCart={addCart} />}
+          />
+          {/* <Route
           path="/product-category/:category"
           element={<MinimartCategory />}
         /> */}
-        <Route
-          path="/minimart/cart"
-          element={<Cart cart={cart} setCart={setCart} />}
-        />
-        <Route path="/search" element={<Search />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/verify-email" element={<VerifyEmailPage />} />
-        <Route path="/forget-password" element={<ForgotPasswordPage />} />
-        <Route path="/userprofile" element={<ProtectedPage />}>
-          <Route path="/userprofile" element={<Userprofilepage />} />
-          <Route path="/userprofile/createrecipe" element={<CreateRecipe />} />
           <Route
-            path="/userprofile/editprofile"
-            element={<EditProfilePage />}
+            path="/minimart/cart"
+            element={<Cart cart={cart} setCart={setCart} />}
           />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          <Route path="/search" element={<Search />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />} />
+          <Route path="/forget-password" element={<ForgotPasswordPage />} />
+          <Route path="/userprofile" element={<ProtectedPage />}>
+            <Route path="/userprofile" element={<Userprofilepage />} />
+            <Route
+              path="/userprofile/createrecipe"
+              element={<CreateRecipe />}
+            />
+            <Route
+              path="/userprofile/editprofile"
+              element={<EditProfilePage />}
+            />
+          </Route>
+          <Route path="/viewprofilepage/:id" element={<ViewOthersProfile />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { apiStart } from "../../api";
 import { useNavigate } from "react-router-dom";
 import logo from "/logo.svg";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,11 +41,13 @@ const Signup = () => {
           email,
           password,
         });
+        console.log(response.data);
         if (response.data.success) {
+          toast.success(`${username}, your account is successfully created.`);
           navigate("/login");
         }
-        console.log(response.data);
-        navigate("/verify-email");
+
+        // navigate("/verify-email");
       } catch (error) {
         console.log(error.message || "Error creating user");
       } finally {

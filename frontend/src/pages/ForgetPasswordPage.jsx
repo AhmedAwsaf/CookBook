@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { apiStart } from '../../api';
-import logo from '/logo.svg';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { apiStart } from "../../api";
+import logo from "/logo.svg";
 
 const ForgetPasswordPage = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [token, setToken] = useState(null);
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const token = query.get('token');
+    const token = query.get("token");
     setToken(token);
 
     if (token) {
-      setMessage('Please enter your new password.');
+      setMessage("Please enter your new password.");
     } else {
-      setMessage('Please enter your email to receive the password reset link.');
+      setMessage("Please enter your email to receive the password reset link.");
     }
   }, [location]);
 
@@ -34,20 +34,32 @@ const ForgetPasswordPage = () => {
 
   const handleResetPassword = async () => {
     try {
-      const response = await axios.post(`${apiStart}/api/user/reset-password`, { token, password });
+      const response = await axios.post(`${apiStart}/api/user/reset-password`, {
+        token,
+        password,
+      });
       setMessage(response.data.message);
-      navigate('/login');
+      navigate("/login");
     } catch (error) {
-      setMessage(error.response ? error.response.data.message : 'Password reset failed');
+      setMessage(
+        error.response ? error.response.data.message : "Password reset failed"
+      );
     }
   };
 
   const handleSendResetLink = async () => {
     try {
-      const response = await axios.post(`${apiStart}/api/user/send-forget-password`, { email });
-      setMessage('Password reset link sent. Please check your email.');
+      const response = await axios.post(
+        `${apiStart}/api/user/send-forget-password`,
+        { email }
+      );
+      setMessage("Password reset link sent. Please check your email.");
     } catch (error) {
-      setMessage(error.response ? error.response.data.message : 'Failed to send reset link');
+      setMessage(
+        error.response
+          ? error.response.data.message
+          : "Failed to send reset link"
+      );
     }
   };
 
@@ -61,7 +73,9 @@ const ForgetPasswordPage = () => {
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
             Forget Password
           </h1>
-          {message && <p className="mt-4 text-center text-gray-700">{message}</p>}
+          {message && (
+            <p className="mt-4 text-center text-gray-700">{message}</p>
+          )}
           {token ? (
             <div>
               <input
@@ -72,7 +86,7 @@ const ForgetPasswordPage = () => {
                 className="mt-4 w-full px-4 py-2 border rounded"
               />
               <button
-                className="mt-6 inline-block rounded bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring"
+                className="mt-6 inline-block rounded bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring"
                 onClick={handleResetPassword}
               >
                 Reset Password
@@ -88,7 +102,7 @@ const ForgetPasswordPage = () => {
                 className="mt-4 w-full px-4 py-2 border rounded"
               />
               <button
-                className="mt-6 inline-block rounded bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring"
+                className="mt-6 inline-block rounded bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring"
                 onClick={handleSendResetLink}
               >
                 Send Reset Link

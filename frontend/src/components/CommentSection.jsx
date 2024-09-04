@@ -47,7 +47,8 @@ const CommentSection = ({ comments, recipeID }) => {
   const [recipeComments, setRecipeComments] = useState(comments || []);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handlePostComment = async () => {
+  const handlePostComment = async (e) => {
+    e.preventDefault();
     if (!newComment.trim()) return;
 
     try {
@@ -91,7 +92,10 @@ const CommentSection = ({ comments, recipeID }) => {
         )}
 
         {isAuthenticated ? (
-          <div className="flex items-center border-t pt-4">
+          <form
+            onSubmit={handlePostComment}
+            className="flex items-center border-t pt-4"
+          >
             <input
               type="text"
               className="flex-1 border border-gray-300 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
@@ -101,12 +105,11 @@ const CommentSection = ({ comments, recipeID }) => {
             />
             <button
               className="text-teal-600 hover:text-teal-800 ml-2 font-medium"
-              onClick={handlePostComment}
               disabled={isLoading}
             >
               {isLoading ? "Posting..." : "Post"}
             </button>
-          </div>
+          </form>
         ) : (
           <div className="mt-2 text-sm text-gray-400 text-center font-semibold">
             Please log in to comment on this recipe

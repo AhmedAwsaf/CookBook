@@ -55,11 +55,11 @@ const Loginco = () => {
             all the amazing features we have to offer.
           </p>
           <p className="text-sm text-gray-500 mt-2">
-              No account?
-              <Link className="underline mx-2" to="/signup">
-                Sign up
-              </Link>
-            </p>
+            No account?
+            <Link className="underline mx-2" to="/signup">
+              Sign up
+            </Link>
+          </p>
         </div>
 
         <form
@@ -147,9 +147,9 @@ const Loginco = () => {
 
           <div className="flex items-center justify-between">
             <p className="text-sm text-gray-500">
-              Forget password?
-              <Link className="underline mx-2" to="/forget-password">
-                Forget password
+              No account?
+              <Link className="underline" to="/signup">
+                Sign up
               </Link>
             </p>
 
