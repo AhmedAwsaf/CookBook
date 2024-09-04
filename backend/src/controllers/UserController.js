@@ -2,6 +2,10 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 
+
+const multer = require("multer");
+const path = require("path");
+
 const User = require("../model/User");
 
 const beapistart = "http://localhost:5001";
@@ -322,6 +326,34 @@ const editUser = async (req, res) => {
     res.status(500).json({ message: "Server error", error });
   }
 };
+//upload profile picture
+const PPstorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/profilepictures");
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    cb(null, `${req.user.id}${ext}`);
+  },
+});
+
+const PPupload = multer({
+  storage: PPstorage,
+  limits: { fileSize: 25 * 1024 * 1024 }, 
+});
+
+const uploadProfilepicture = async (req, res) => {
+  try {
+    const photoUrl = `/profilepictures/${req.file.filename}`;
+
+    await User.findByIdAndUpdate(req.user.id, { photo: photoUrl });
+
+    res.json({ success: true, photo: photoUrl });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+}
 
 const deleteUser = async (req, res) => {
   const { id } = req.body;
@@ -387,6 +419,8 @@ module.exports = {
   resetPassword,
   
   editUser,
+  PPupload,
+  uploadProfilepicture,
   aeditUser,
   deleteUser
 };

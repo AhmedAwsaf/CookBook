@@ -8,6 +8,7 @@ const EditProfilePage = () => {
       <Header />
       <div className="flex items-center justify-center mt-16">
         <EditProfile />
+        
       </div>
     </div>
   );

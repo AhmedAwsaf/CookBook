@@ -28,7 +28,7 @@ const Header = () => {
         <Nav
           menuItems={menuItems}
           Logo={logo}
-          userProfile={isAuthenticated}
+          userProfile={userObj}
           onLogout={handleLogout}
         />
       </div>
@@ -36,7 +36,7 @@ const Header = () => {
         <MobileNav
           menuItems={menuItems}
           Logo={logo}
-          userProfile={isAuthenticated}
+          userProfile={userObj}
           onLogout={handleLogout}
         />
       </div>

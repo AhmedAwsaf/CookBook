@@ -138,7 +138,7 @@ const UserSideBar = () => {
         >
           <img
             alt=""
-            src={userObj?.photo}
+            src={`${apiStart}${userObj.photo}`}
             className="size-10 rounded-full object-cover"
           />
 
