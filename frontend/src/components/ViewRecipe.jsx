@@ -5,8 +5,10 @@ import { FaRegHeart } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiStart } from "../../api";
+import { useAuth } from "../contexts/AuthContext";
 
 const ViewRecipe = ({ onClose, recipe, isOpen }) => {
+  const { userObj } = useAuth();
   const categoryStyles = {
     Entrees: { backgroundColor: "#f0f5c4", color: "#59871f" },
     Breakfast: { backgroundColor: "#efedfa", color: "#3c3a8f" },
@@ -56,7 +58,7 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
         {/* Recipe Details */}
         <div className="p-6 flex-1 overflow-auto ">
           <div className="flex justify-between items-start ">
-            <h1 className="text-3xl font-semibold mb-4">{recipe.name}</h1>
+            <h1 className="text-3xl font-semibold">{recipe.name}</h1>
             <button
               onClick={onClose}
               className="text-gray-600 hover:text-gray-800 focus:outline-none "
@@ -79,7 +81,14 @@ const ViewRecipe = ({ onClose, recipe, isOpen }) => {
           </div>
           <div className="flex gap-1 items-center pb-1">
             <p className="text-gray-950 text-sm">Posted by</p>
-            <Link to="#" className="text-gray-500 italic font-bold text-lg">
+            <Link
+              to={
+                userObj._id === recipe.createdBy
+                  ? `/userprofile`
+                  : `/viewprofilepage/${recipe.createdBy}`
+              }
+              className="text-gray-500 italic font-bold text-lg"
+            >
               {username}
             </Link>
           </div>

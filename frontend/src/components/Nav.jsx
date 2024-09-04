@@ -6,6 +6,7 @@ import {
   HiOutlineUserCircle,
   HiCheckCircle,
   HiOutlineShoppingCart,
+  HiOutlineBellAlert,
 } from "react-icons/hi2";
 import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
 import { apiStart } from "../../api";
@@ -60,6 +61,12 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
           <>
             <li>
               <Link to="/minimart/cart" className="hover:text-teal-600">
+                <HiOutlineBellAlert size={28} />
+              </Link>
+            </li>
+
+            <li>
+              <Link to="/minimart/cart" className="hover:text-teal-600">
                 <HiOutlineShoppingCart size={28} />
               </Link>
             </li>
@@ -68,6 +75,7 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
                 <HiOutlineUserCircle size={30} />
               </Link>
             </li>
+
             <li>
               <button
                 onClick={handleLogOut}

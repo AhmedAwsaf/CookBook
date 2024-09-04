@@ -44,7 +44,7 @@ const UserSideBar = () => {
   }
 
   return (
-    <div className="flex flex-col justify-between border-e bg-white">
+    <div className="flex flex-col justify-between border-e bg-white w-52 fixed h-full">
       <div className="px-4 py-1">
         <ul className="mt-6 space-y-1">
           <li>

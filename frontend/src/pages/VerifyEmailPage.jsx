@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { apiStart } from '../../api';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { apiStart } from "../../api";
 import logo from "/logo.svg";
 
 const VerifyEmailPage = () => {
-  const [message, setMessage] = useState('Loading...');
+  const [message, setMessage] = useState("Loading...");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isVerified, setIsVerified] = useState(false);
   const location = useLocation();
@@ -13,14 +13,18 @@ const VerifyEmailPage = () => {
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
-    const token = query.get('token');
+    const token = query.get("token");
 
     const verifyEmail = async (token) => {
       try {
-        const response = await axios.get(`${apiStart}/api/user/verify-email`, { params: { token } });
+        const response = await axios.get(`${apiStart}/api/user/verify-email`, {
+          params: { token },
+        });
         setMessage(response.data);
       } catch (error) {
-        setMessage(error.response ? error.response.data : 'Verification failed');
+        setMessage(
+          error.response ? error.response.data : "Verification failed"
+        );
       }
     };
 
@@ -34,16 +38,20 @@ const VerifyEmailPage = () => {
           });
           setIsLoggedIn(true);
           setIsVerified(response.data.data.isVerified);
-          setMessage(`User is ${response.data.data.isVerified ? 'verified' : 'not verified'}`);
+          setMessage(
+            `User is ${
+              response.data.data.isVerified ? "verified" : "not verified"
+            }`
+          );
         } catch (error) {
           setIsLoggedIn(false);
           setIsVerified(false);
-          setMessage('Please log in to verify your email');
+          setMessage("Please log in to verify your email");
         }
       } else {
         setIsLoggedIn(false);
         setIsVerified(false);
-        setMessage('Please log in to verify your email');
+        setMessage("Please log in to verify your email");
       }
     };
 
@@ -63,9 +71,9 @@ const VerifyEmailPage = () => {
           Authorization: `Bearer ${Vertoken}`,
         },
       });
-      setMessage('Verification email sent. Please check your inbox.');
+      setMessage("Verification email sent. Please check your inbox.");
     } catch (error) {
-      setMessage('Failed to send verification email. Please try again later.');
+      setMessage("Failed to send verification email. Please try again later.");
     }
   };
 
@@ -78,42 +86,52 @@ const VerifyEmailPage = () => {
       /> */}
 
       <div className="flex flex-1 items-center justify-center">
-
         <div className="mx-auto max-w-xl px-16 py-32 text-center m-2 rounded-xl shadow-2xl bg-white">
-        <a href="/">
-          <img src={logo} alt="logo" className="h-12 w-auto mx-auto mb-6" />
-        </a>
+          <a href="/">
+            <img src={logo} alt="logo" className="h-12 w-auto mx-auto mb-6" />
+          </a>
           <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-          Verify Email
+            Verify Email
           </h1>
           {/* <h1 className='text-xl font-bold'>Veridfy Email</h1> */}
           {message && <p>{message}</p>}
           {!isLoggedIn && (
             <div>
-              <p className="mt-4 text-green-500 font-mono">Please log in to verify your email</p>
+              <p className="mt-4 text-gray-500 font-mono">
+                Please log in to verify your email
+              </p>
               <a
-            href="/login"
-            className="mt-6 inline-block rounded bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring"
-          >
-            Login
-          </a>
+                href="/login"
+                className="mt-6 inline-block rounded bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring"
+              >
+                Login
+              </a>
             </div>
           )}
           {isLoggedIn && isVerified && (
             <div>
-              <p className="mt-4 text-gray-500 font-mono">Your email is verified.</p>
+              <p className="mt-4 text-gray-500 font-mono">
+                Your email is verified.
+              </p>
               <a
-            href="/"
-            className="mt-6 inline-block rounded bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring"
-          >
-            Go Home
-          </a>
+                href="/"
+                className="mt-6 inline-block rounded bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring"
+              >
+                Go Home
+              </a>
             </div>
           )}
           {isLoggedIn && !isVerified && (
             <div>
-              <p className="mt-4 font-mono text-green-500">Your email is not verified.</p>
-              <button className="mt-6 inline-block rounded bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring " onClick={handleSendVerificationEmail}>Verify Email</button>
+              <p className="mt-4 font-mono text-gray-600">
+                Your email is not verified.
+              </p>
+              <button
+                className="mt-6 inline-block rounded bg-teal-600 px-5 py-3 text-sm font-medium text-white hover:bg-teal-700 focus:outline-none focus:ring "
+                onClick={handleSendVerificationEmail}
+              >
+                Verify Email
+              </button>
             </div>
           )}
           {/* 
@@ -134,4 +152,3 @@ const VerifyEmailPage = () => {
 };
 
 export default VerifyEmailPage;
-

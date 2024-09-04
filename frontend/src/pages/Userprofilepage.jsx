@@ -7,11 +7,12 @@ import UserSideBar from "../components/UserSideBar";
 const Userprofilepage = () => {
   return (
     <div>
-      <Header />
-      <div className="flex">
-        <UserSideBar className="w-1/4" />
-        <div className="flex-1 p-6">
-          <div className="m1-0">
+      <div className="min-h-screen flex flex-col">
+        <Header />
+
+        <div className="flex">
+          <UserSideBar />
+          <div className="flex-1">
             <UserProfile />
             <div className="flex justify-center">
               <PostsList />

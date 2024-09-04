@@ -6,7 +6,7 @@ const User = require("../model/User");
 
 const beapistart = "http://localhost:5001";
 
-const feapistart = "http://localhost:5173"
+const feapistart = "http://localhost:5173";
 
 //GET USER DATA
 
@@ -99,7 +99,7 @@ const createUser = async (req, res) => {
 
     await newUser.save();
 
-    const token = jwt.sign({ id: user._id, role: user.role }, "secret", {
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, "secret", {
       expiresIn: "24h",
     });
 
@@ -154,10 +154,9 @@ const loginUser = async (req, res) => {
   }
 };
 
-
 //  Verfication email
-const sendverifyemail = async(req, res) => {
-  console.log("Sending Verification Email")
+const sendverifyemail = async (req, res) => {
+  console.log("Sending Verification Email");
 
   const id = req.user.id;
 
@@ -244,35 +243,41 @@ const sendforgeturl = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ success: false, message: 'User not found' });
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
     }
 
-    const token = jwt.sign({ id: user._id }, 'I_forgOt', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id }, "I_forgOt", { expiresIn: "1h" });
 
     const transporter = nodemailer.createTransport({
-      host: 'smtp.ethereal.email',
+      host: "smtp.ethereal.email",
       port: 587,
       auth: {
-          user: 'zakary.sawayn78@ethereal.email',
-          pass: 'qxVy48M8FjvqU6ABD9'
-      }
+        user: "zakary.sawayn78@ethereal.email",
+        pass: "qxVy48M8FjvqU6ABD9",
+      },
     });
 
     const mailOptions = {
-      from: 'zakary.sawayn78@ethereal.email',
+      from: "zakary.sawayn78@ethereal.email",
       to: user.email,
-      subject: 'Password Reset Link',
-      text: `Click the following link to reset your password: ${feapistart}/forget-password?token=${token}`
+      subject: "Password Reset Link",
+      text: `Click the following link to reset your password: ${feapistart}/forget-password?token=${token}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        return res.status(500).json({ success: false, message: 'Error sending email', error });
+        return res
+          .status(500)
+          .json({ success: false, message: "Error sending email", error });
       }
-      res.status(200).json({ success: true, message: 'Password reset link sent' });
+      res
+        .status(200)
+        .json({ success: true, message: "Password reset link sent" });
     });
   } catch (error) {
-    res.status(500).json({ success: false, message: 'Server error', error });
+    res.status(500).json({ success: false, message: "Server error", error });
   }
 };
 
@@ -280,11 +285,11 @@ const resetPassword = async (req, res) => {
   const { token, password } = req.body;
 
   try {
-    const decoded = jwt.verify(token, 'I_forgOt');
+    const decoded = jwt.verify(token, "I_forgOt");
     const user = await User.findById(decoded.id);
 
     if (!user) {
-      return res.status(400).json({ success: false, message: 'Invalid token' });
+      return res.status(400).json({ success: false, message: "Invalid token" });
     }
 
     // console.log(user)
@@ -293,13 +298,16 @@ const resetPassword = async (req, res) => {
     user.password = await bcrypt.hash(password, salt);
     await user.save();
 
-    console.log("USER password changed")
-    res.status(200).json({ success: true, message: 'Password reset successfully' });
+    console.log("USER password changed");
+    res
+      .status(200)
+      .json({ success: true, message: "Password reset successfully" });
   } catch (error) {
-    res.status(400).json({ success: false, message: 'Invalid or expired token', error });
+    res
+      .status(400)
+      .json({ success: false, message: "Invalid or expired token", error });
   }
 };
-
 
 //Edit Users
 const editUser = async (req, res) => {
@@ -385,8 +393,8 @@ module.exports = {
 
   sendforgeturl,
   resetPassword,
-  
+
   editUser,
   aeditUser,
-  deleteUser
+  deleteUser,
 };
