@@ -17,7 +17,9 @@ const CategoryPage = () => {
     const fetchCategoryData = async () => {
       setLoading(true);
       try {
-        const response = await axios.get(`${apiStart}/api/recipe/${category}`);
+        const response = await axios.get(
+          `${apiStart}/api/recipe/category/${category}`
+        );
         setItems(response.data);
       } catch (error) {
         setError(error.message || "Error loading category");
@@ -62,6 +64,7 @@ const CategoryPage = () => {
                   tags={item.tags}
                   ingredients={item.ingredients}
                   createdBy={item.createdBy}
+                  likeArray={item.likedUsers}
                 />
               );
             })}

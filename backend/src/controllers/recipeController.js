@@ -30,6 +30,7 @@ const createRecipe = async (req, res) => {
       photo,
       comments: [],
       createdBy,
+      likedUsers: [],
     });
 
     // Save the recipe to the database
@@ -124,10 +125,77 @@ const addComment = async (req, res) => {
   }
 };
 
+const addLike = async (req, res) => {
+  const { recipeID, userId } = req.body;
+
+  try {
+    const recipe = await Recipe.findById(recipeID);
+
+    if (!recipe) {
+      return res.status(404).json({ message: "Recipe not found" });
+    }
+
+    const existingUserId = recipe.likedUsers.find(
+      (likedUserId) => likedUserId.toString() === userId
+    );
+
+    if (existingUserId) {
+      // User already liked the recipe, remove the like
+      recipe.likedUsers = recipe.likedUsers.filter(
+        (likedUserId) => likedUserId.toString() !== userId
+      );
+      recipe.recipeLikeCount = Math.max(0, recipe.recipeLikeCount - 1); // Decrement like count
+    } else {
+      // User has not liked the recipe, add the like
+      recipe.likedUsers.push(userId);
+      recipe.recipeLikeCount += 1; // Increment like count
+    }
+
+    await recipe.save();
+
+    return res.status(201).json({
+      success: true,
+      message: "Like operation handled successfully",
+    });
+  } catch (error) {
+    console.error("Error adding/removing like:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Like operation error",
+      error: error.message,
+    });
+  }
+};
+
+const getRecipe = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const recipe = await Recipe.findById(id);
+    if (!recipe) {
+      return res
+        .status(404)
+        .json({ success: false, message: "recipe not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "recipe fetched successfully",
+      data: recipe,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
 module.exports = {
   createRecipe,
   getAllRecipes,
   getCategory,
   getSearchedRecipe,
   addComment,
+  addLike,
+  getRecipe,
 };

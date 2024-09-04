@@ -77,6 +77,7 @@ const PostsList = () => {
               comments={post.comments}
               tags={post.tags}
               ingredients={post.ingredients}
+              likeArray={post.likedUsers}
             />
           );
         })}
