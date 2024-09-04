@@ -123,14 +123,6 @@ const MobileNav = ({ menuItems, Logo, userProfile, onLogout }) => {
                   </button>
                 </Link>
               )}
-
-              {!userProfile.isVerified && (
-                <Link to="/verify-email">
-                  <button className="px-4 py-2 rounded text-red-700 border border-red-600">
-                    Verify Email
-                  </button>
-                </Link>
-              )}
               <li>
                 <button
                   onClick={() => {

@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
+const multer = require("multer");
+const path = require("path");
+
 const {
   getallusers,
   getUser,
@@ -18,6 +21,8 @@ const {
   resetPassword,
 
   editUser,
+  PPupload,
+  uploadProfilepicture,
   aeditUser,
 } = require("../controllers/UserController");
 
@@ -39,6 +44,9 @@ router.post("/create", createUser);
 
 // update
 router.post("/update", verifyToken, editUser);
+
+router.post("/upload-profile-picture", verifyToken, PPupload.single("photo"), uploadProfilepicture);
+
 
 router.post("/send-forget-password",sendforgeturl);
 router.post("/reset-password",resetPassword);
