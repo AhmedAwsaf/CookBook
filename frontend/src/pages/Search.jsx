@@ -99,6 +99,7 @@ const Search = () => {
             tags={item.tags}
             ingredients={item.ingredients}
             createdBy={item.createdBy}
+            likeArray={item.likedUsers}
           />
         ))}
       </ul>

@@ -20,6 +20,7 @@ const PostCard = ({
   ingredients,
   tags,
   createdBy,
+  likeArray,
 }) => {
   //console.log(comments);
   const categoryStyles = {
@@ -56,6 +57,7 @@ const PostCard = ({
     likes: likesCount,
     comments,
     createdBy,
+    likeArray,
   };
 
   const openModal = () => {
@@ -87,7 +89,7 @@ const PostCard = ({
             <div className="flex items-center">
               <HeartIcon className="h-6 w-6 text-gray-600 cursor-pointer hover:text-red-500" />
               <span className="text-sm text-gray-600 ml-2">
-                {likesCount} Likes
+                {likeArray.length} Likes
               </span>
             </div>
             <div className="flex items-center text-gray-600 text-sm">
@@ -127,7 +129,7 @@ const PostCard = ({
       {isModalOpen && (
         <ViewRecipe
           onClose={closeModal}
-          recipe={selectedRecipe}
+          recipeId={selectedRecipe.recipeID}
           isOpen={isModalOpen}
         />
       )}

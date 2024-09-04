@@ -36,6 +36,7 @@ const RecipeSchema = new mongoose.Schema({
       comment: String,
     },
   ],
+  likedUsers: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
 });
 
 module.exports = mongoose.model("Recipe", RecipeSchema);

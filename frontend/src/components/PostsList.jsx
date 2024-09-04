@@ -78,6 +78,7 @@ const PostsList = () => {
               tags={post.tags}
               ingredients={post.ingredients}
               createdBy={post.createdBy}
+              likeArray={post.likedUsers}
             />
           );
         })}
