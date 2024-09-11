@@ -8,7 +8,6 @@ import { apiStart } from "../../api";
 import axios from "axios";
 
 const UserProfile = () => {
-  // Example data, replace with actual data
   const { userObj } = useAuth();
   const [posts, setPosts] = useState([]);
   useEffect(() => {
