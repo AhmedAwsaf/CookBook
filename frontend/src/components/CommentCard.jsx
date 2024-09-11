@@ -21,7 +21,7 @@ const CommentCard = ({ commentedBy, comment }) => {
   return (
     <div className="flex items-start mb-4 w-full">
       <img
-        src={user?.photo}
+        src={`${apiStart}${user?.photo}`}
         alt="User Avatar"
         className="w-10 h-10 rounded-full object-cover mr-3"
       />

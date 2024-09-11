@@ -2,7 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiStart } from '../../../api';
 
-const UserTable = ({ userData }) => {
+const UserTable = ({ userData, onViewUser }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Filter user data based on search term
+  const filteredUsers = userData.filter(
+    (user) =>
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.username.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   if (userData.length === 0) {
     return <p className="text-gray-500">Loading...</p>;
   }
@@ -10,6 +19,18 @@ const UserTable = ({ userData }) => {
   return (
     <div>
       <h2 className="text-2xl mb-4">User Entities</h2>
+
+      {/* Search bar */}
+      <div className="mb-4">
+        <input
+          type="text"
+          className="border rounded-lg px-4 py-2 w-full"
+          placeholder="Search by email or username..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <table className="w-full table-auto min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
         <thead className="ltr:text-left rtl:text-right">
           <tr>
@@ -20,25 +41,25 @@ const UserTable = ({ userData }) => {
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {userData.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.id}>
               <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user.email}</td>
               <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user.username}</td>
               <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user.role}</td>
               <td className="whitespace-nowrap px-4 py-2">
-                  <a
-                    href="#"
-                    className="inline-block rounded bg-indigo-600 px-4 py-2 mx-2 text-xs font-medium text-white hover:bg-indigo-700"
-                  >
-                    View
-                  </a>
-                  <a
-                    href="#"
-                    className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                  >
-                    Edit
-                  </a>
-                </td>
+                <button
+                  onClick={() => onViewUser(user)}
+                  className="inline-block rounded bg-indigo-600 px-4 py-2 mx-2 text-xs font-medium text-white hover:bg-indigo-700"
+                >
+                  View
+                </button>
+                <a
+                  href="#"
+                  className="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700"
+                >
+                  Delete
+                </a>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -50,14 +71,22 @@ const UserTable = ({ userData }) => {
 const MainEntities = () => {
   const [activeTab, setActiveTab] = useState('Users');
   const [userData, setUserData] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [userPosts, setUserPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const tabs = ['Users'];
+  const tabs = ['Users','Recipes','Items'];
 
   useEffect(() => {
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (selectedUser) {
+      fetchUserPosts(selectedUser._id);
+    }
+  }, [selectedUser]);
 
   const fetchUserData = async () => {
     setIsLoading(true);
@@ -72,11 +101,26 @@ const MainEntities = () => {
     }
   };
 
+  const fetchUserPosts = async (userId) => {
+    try {
+      const response = await axios.post(`${apiStart}/api/recipe/userRecipes`, {
+        createdBy: userId,
+      });
+      setUserPosts(response.data);
+    } catch (error) {
+      console.error('Error fetching user posts:', error);
+    }
+  };
+
+  const handleViewUser = (user) => {
+    setSelectedUser(user);
+  };
+
   return (
     <div className="flex">
       {/* Left part: Vertical menu */}
       <div className="w-1/6 p-4">
-      <h1 className='text-xl font-medium px-4 py-2'>Data</h1>
+        <h1 className="text-xl font-medium px-4 py-2">Data</h1>
         <ul className="space-y-1">
           {tabs.map((tab) => (
             <li key={tab}>
@@ -102,7 +146,7 @@ const MainEntities = () => {
             ) : error ? (
               <p className="text-red-500">{error}</p>
             ) : (
-              <UserTable userData={userData} />
+              <UserTable userData={userData} onViewUser={handleViewUser} />
             )}
           </>
         )}
@@ -112,7 +156,41 @@ const MainEntities = () => {
 
       {/* Right part: Additional content */}
       <div className="w-1/3 p-4 bg-gray-100">
-        <div>Additional content goes here</div>
+        {selectedUser ? (
+          <div>
+            <h3 className="text-xl font-medium mb-2">User Details</h3>
+            <p><strong>Email:</strong> {selectedUser.email}</p>
+            <p><strong>Username:</strong> {selectedUser.username}</p>
+            <p><strong>Role:</strong> {selectedUser.role}</p>
+            <p><strong>Created At:</strong> {new Date(selectedUser.createdAt).toLocaleString()}</p>
+            <p><strong>Updated At:</strong> {new Date(selectedUser.updatedAt).toLocaleString()}</p>
+
+            {/* User Posts */}
+            <h4 className="text-lg font-medium mt-4 mb-2">User Posts</h4>
+            {userPosts.length > 0 ? (
+              <ul className="list-disc pl-5">
+              {userPosts.map((post) => (
+                <li key={post._id}>
+                  <p className='text-green-800'><strong>Title:</strong> {post.name}</p>
+                  <p><strong>Category:</strong> {post.category}</p>
+                  <p><strong>Tags:</strong> {post.tags.join(", ")}</p>
+                  <p><strong>Prep Time:</strong> {post.prepTime}</p>
+                  <p><strong>Cook Time:</strong> {post.cookTime}</p>
+                  <p><strong>Servings:</strong> {post.servings}</p>
+                  <p><strong>Difficulty:</strong> {post.difficulty}</p>
+                  <p><strong>Recipe Like Count:</strong> {post.recipeLikeCount}</p>
+                  <p><strong>Created By:</strong> {post.createdBy.username}</p>
+                  <p><strong>Created At:</strong> {new Date(post.createdAt).toLocaleString()}</p>
+                </li>
+              ))}
+              </ul>
+            ) : (
+              <p className="text-gray-500">No posts available for this user.</p>
+            )}
+          </div>
+        ) : (
+          <p className="text-gray-500">Select a user to view details and posts.</p>
+        )}
       </div>
     </div>
   );
