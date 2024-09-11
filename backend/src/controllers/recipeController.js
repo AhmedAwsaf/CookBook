@@ -189,6 +189,64 @@ const getRecipe = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
+const getMostLikedRecipe = async (req, res) => {
+  try {
+    const mostLikedRecipe = await Recipe.findOne()
+      .sort({ recipeLikeCount: -1 }) // Sort by recipeLikeCount in descending order
+      .limit(1) // Limit to 1 result (the most liked recipe)
+      .select("-comments") // Exclude comments to reduce payload size
+      .populate("createdBy", "username"); // Populate the createdBy field with the username
+
+    if (!mostLikedRecipe) {
+      return res.status(404).json({
+        success: false,
+        message: "No recipes found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Most liked recipe fetched successfully",
+      data: mostLikedRecipe,
+    });
+  } catch (error) {
+    console.error("Error fetching most liked recipe:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
+const getLatestRecipes = async (req, res) => {
+  try {
+    const latestRecipes = await Recipe.find()
+      .sort({ _id: -1 }) // Sort by _id in descending order (assumes _id contains creation timestamp)
+      .limit(4) // Limit to 4 results
+      .select("-comments") // Exclude comments to reduce payload size
+      .populate("createdBy", "username"); // Populate the createdBy field with the username
+
+    if (latestRecipes.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No recipes found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Latest recipes fetched successfully",
+      data: latestRecipes,
+    });
+  } catch (error) {
+    console.error("Error fetching latest recipes:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   createRecipe,
@@ -198,4 +256,6 @@ module.exports = {
   addComment,
   addLike,
   getRecipe,
+  getMostLikedRecipe,
+  getLatestRecipes,
 };
