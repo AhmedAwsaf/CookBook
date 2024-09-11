@@ -30,6 +30,16 @@ function App() {
       return item ? prevcart : [...prevcart, newItems];
     });
   }
+
+  function deleteItem(index) {
+    console.log(index);
+    setCart(function (prevcart) {
+      const items = prevcart.filter((_, idx) => index !== idx);
+      console.log(items);
+      return items;
+    });
+  }
+
   return (
     <>
       <Toaster position="bottom-right" reverseOrder={false} />
@@ -50,7 +60,9 @@ function App() {
         /> */}
           <Route
             path="/minimart/cart"
-            element={<Cart cart={cart} setCart={setCart} />}
+            element={
+              <Cart cart={cart} setCart={setCart} deleteItem={deleteItem} />
+            }
           />
           <Route path="/search" element={<Search />} />
           <Route path="/admin" element={<AdminPage />} />

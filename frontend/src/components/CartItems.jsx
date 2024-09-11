@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { HiOutlineMinus, HiOutlinePlus } from "react-icons/hi2";
+import { HiOutlineMinus, HiOutlineTrash, HiOutlinePlus } from "react-icons/hi2";
 
-const CartItems = ({ cart, setCart }) => {
+const CartItems = ({ cart, setCart, deleteItem }) => {
   // Dummy data for cart items
   // const initialCartItems = [
   //   {
@@ -72,7 +72,7 @@ const CartItems = ({ cart, setCart }) => {
   return (
     <div className="p-6 max-w-screen-md mx-auto">
       <h2 className="text-2xl font-semibold text-center mb-2">Your Cart</h2>
-      <div className="grid grid-cols-[350px_1.5fr_2fr_1.5fr] justify-items-center mb-2 mt-6 text-sm text-black-500 font-semibold">
+      <div className="grid grid-cols-[350px_2fr_2fr_2.5fr] justify-items-center mb-2 mt-6 text-sm text-black-500 font-semibold">
         <div></div>
         <div>Price/unit</div>
         <div>Quantity</div>
@@ -80,38 +80,48 @@ const CartItems = ({ cart, setCart }) => {
       </div>
       <div className="flex flex-col gap-4">
         {cartItems.map((item, index) => (
-          <div
-            key={index}
-            className="grid grid-cols-[auto_6fr_2fr_3fr_2fr] justify-items-center items-center p-4 bg-white shadow-md rounded-lg"
-          >
-            <img
-              src={item.imageUrl}
-              alt={item.name}
-              className="w-20 h-20 object-cover rounded-md"
-            />
-            <div className="ml-4 justify-self-start">
-              <h3 className="font-semibold text-lg">{item.name}</h3>
+          <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
+            <div
+              key={index}
+              className="grid grid-cols-[auto_6fr_2fr_3fr_2fr] justify-items-center items-center p-4 bg-white shadow-md rounded-lg"
+            >
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                className="w-20 h-20 object-cover rounded-md"
+              />
+              <div className="ml-4 justify-self-start">
+                <h3 className="font-semibold text-lg">{item.name}</h3>
+              </div>
+              <p className="mr-2 text-lg font-semibold">Tk.{item.price}</p>
+              <div className="flex items-center gap-2">
+                <button
+                  className="px-1 py-1 rounded-full bg-teal-600 hover:bg-teal-700 transition-all"
+                  onClick={() => handleDecreaseQuantity(index)}
+                >
+                  <HiOutlineMinus color="white" />
+                </button>
+                <p className="mx-2 text-lg font-semibold">{item.quantity}</p>
+                <button
+                  className="px-1 py-1 rounded-full bg-teal-600 hover:bg-teal-700 transition-all"
+                  onClick={() => handleIncreaseQuantity(index)}
+                >
+                  <HiOutlinePlus color="white" />
+                </button>
+              </div>
+              <div className="text-right ml-6">
+                <p className="text-lg font-semibold">
+                  Tk.{item.price * item.quantity}
+                </p>
+              </div>
             </div>
-            <p className="mr-2 text-lg font-semibold">Tk.{item.price}</p>
-            <div className="flex items-center gap-2">
+            <div>
               <button
-                className="px-1 py-1 rounded-full bg-teal-600 hover:bg-teal-700 transition-all"
-                onClick={() => handleDecreaseQuantity(index)}
+                onClick={() => deleteItem(index)}
+                className="px-1 py-1 rounded-sm bg-teal-600 hover:bg-teal-700 transition-all"
               >
-                <HiOutlineMinus color="white" />
+                <HiOutlineTrash color="white" />
               </button>
-              <p className="mx-2 text-lg font-semibold">{item.quantity}</p>
-              <button
-                className="px-1 py-1 rounded-full bg-teal-600 hover:bg-teal-700 transition-all"
-                onClick={() => handleIncreaseQuantity(index)}
-              >
-                <HiOutlinePlus color="white" />
-              </button>
-            </div>
-            <div className="text-right ml-6">
-              <p className="text-lg font-semibold">
-                Tk.{item.price * item.quantity}
-              </p>
             </div>
           </div>
         ))}
