@@ -8,6 +8,8 @@ const {
   addComment,
   addLike,
   getRecipe,
+  getMostLikedRecipe,
+  getLatestRecipes,
 } = require("../controllers/recipeController");
 
 // Create a recipe
@@ -25,5 +27,9 @@ router.post("/comments", addComment);
 router.post("/addlike", addLike);
 
 router.get("/one/:id", getRecipe);
+
+router.get("/mostLikedRecipe", getMostLikedRecipe);
+
+router.get("/latestRecipes", getLatestRecipes);
 
 module.exports = router;

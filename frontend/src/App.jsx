@@ -44,10 +44,6 @@ function App() {
             path="/minimart"
             element={<Minimart setCart={setCart} addCart={addCart} />}
           />
-          {/* <Route
-          path="/product-category/:category"
-          element={<MinimartCategory />}
-        /> */}
           <Route
             path="/minimart/cart"
             element={<Cart cart={cart} setCart={setCart} />}

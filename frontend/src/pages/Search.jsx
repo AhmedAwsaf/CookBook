@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import Postcard from "../components/Postcard";
 import { apiStart } from "../../api";
+import CategoryWrapper from "./CategoryWrapper";
 
 const Search = () => {
   const navigate = useNavigate();
@@ -75,12 +76,11 @@ const Search = () => {
             required
           />
         </form>
+        <div className="flex flex-col justify-center items-center w-full py-5">
+          <CategoryWrapper />
+        </div>
       </div>
-      {/* <ul className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 ">
-        {loading && <li>Loading...</li>}
-        {error && <li>{error}</li>}
-        {results && results.map((item) => <Card item={item} key={item._id} />)}
-      </ul> */}
+
       <ul className="mt-8 mb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[1100px] gap-x-4 gap-y-8 mx-auto">
         {results.map((item) => (
           <Postcard

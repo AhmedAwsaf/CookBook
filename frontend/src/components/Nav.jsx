@@ -28,12 +28,12 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
 
   return (
     <div className="h-16 flex justify-between items-center px-6 lg:px-12">
-      <a href="/">
+      <Link to="/">
         <img src={Logo} alt="logo" className="h-12 w-auto" />
-      </a>
+      </Link>
       <ul className="flex gap-7">
         <li>
-          <Link to="/" className="font-medium capitalize text-secondary">
+          <Link to="/search" className="font-medium capitalize text-secondary">
             Recipes
           </Link>
         </li>
