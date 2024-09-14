@@ -8,6 +8,7 @@ const OthersProfile = ({ userId }) => {
   // Example data, replace with actual data
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
+  const [totalLikes, setTotalLikes] = useState(0);
   useEffect(() => {
     async function getOthersPosts() {
       try {
@@ -21,6 +22,11 @@ const OthersProfile = ({ userId }) => {
         );
         console.log(response2.data);
         setPosts(response2.data);
+        const likes = response2.data.reduce(
+          (sum, recipe) => sum + (recipe.recipeLikeCount || 0),
+          0
+        );
+        setTotalLikes(likes);
       } catch (error) {
         console.log(error);
       }
@@ -49,8 +55,8 @@ const OthersProfile = ({ userId }) => {
         </div>
         <UserProfileStat
           postsCount={posts?.length}
-          followersCount={user?.UserLikeCount}
-          followingCount={user?.creditPoints}
+          likesOnProfile={totalLikes}
+          creditPoints={user?.creditPoints}
         />
       </div>
       <div className="flex justify-center">
