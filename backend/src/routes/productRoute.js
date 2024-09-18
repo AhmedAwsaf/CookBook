@@ -9,6 +9,11 @@ router.get("/all-products", ProductController.getAllProducts);
 router.get("/products/search/:name", ProductController.getSearchedProducts);
 router.get("/products/single/:id", ProductController.getSingleProduct);
 router.get("/products/:category", ProductController.getProductCategory);
+
 router.post("/billing", verifyToken, ProductController.postCartBill);
+router.get('/orders',verifyToken, ProductController.getAllOrders);
+router.get('/orders/:id', verifyToken,ProductController.getOrderById);
+router.put('/orders/:id', verifyToken,ProductController.updateOrder);
+router.delete('/orders/:id', verifyToken,ProductController.deleteOrder);
 
 module.exports = router;

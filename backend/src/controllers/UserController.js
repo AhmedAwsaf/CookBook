@@ -384,32 +384,35 @@ const deleteUser = async (req, res) => {
       .json({ success: false, message: "Server error", error: error.message });
   }
 };
-const aeditUser = async (req, res) => {
-  const { username, bio, photo, changeId } = req.body;
-  const userId = req.user.id;
 
-  const admin = await User.findById(userId);
-
-  if (admin.role != "admin") {
-    return res.status(404).json({ message: "You are not authorized" });
-  }
+const adeleteUser = async (req, res) => {
+  const deluserId = req.params.id; 
+  const userId = req.user.id; 
 
   try {
-    const user = await User.findByIdAndUpdate(
-      changeId,
-      { username, bio, photo },
-      { new: true }
-    );
+    const loggedInUser = await User.findById(userId);
 
-    if (!user) {
+    if (!loggedInUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.json({ success: true, message: "Profile updated successfully", user });
+    if (loggedInUser.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" }); 
+    }
+
+    const userToDelete = await User.findByIdAndDelete(deluserId);
+
+    if (!userToDelete) {
+      return res.status(404).json({ message: "User to delete not found" });
+    }
+
+    res.json({ success: true, message: "User deleted successfully", user: userToDelete });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Server error", error });
   }
 };
+
 
 module.exports = {
   getallusers,
@@ -429,6 +432,8 @@ module.exports = {
   editUser,
   PPupload,
   uploadProfilepicture,
-  aeditUser,
+  
   deleteUser,
+
+  adeleteUser,
 };

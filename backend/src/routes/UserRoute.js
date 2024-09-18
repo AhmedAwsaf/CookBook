@@ -23,7 +23,7 @@ const {
   editUser,
   PPupload,
   uploadProfilepicture,
-  aeditUser,
+  adeleteUser,
 } = require("../controllers/UserController");
 
 const verifyToken = require("../controllers/middleware/authMiddleware");
@@ -53,12 +53,11 @@ router.post("/reset-password",resetPassword);
 
 //uploadpicture
 
-
-
-//adminonly
-router.put("/aupdate", verifyToken, aeditUser);
 // delete
 
 router.post("/delete", verifyToken, deleteUser);
+
+//admin only
+router.delete("/adelete/:id", verifyToken, adeleteUser)
 
 module.exports = router;
