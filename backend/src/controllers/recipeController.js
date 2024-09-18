@@ -135,25 +135,26 @@ const addLike = async (req, res) => {
       return res.status(404).json({ message: "Recipe not found" });
     }
 
-    const existingUserId = recipe.likedUsers.find(
+    const existingUserIndex = recipe.likedUsers.findIndex(
       (likedUserId) => likedUserId.toString() === userId
     );
 
-    if (existingUserId) {
-      recipe.likedUsers = recipe.likedUsers.filter(
-        (likedUserId) => likedUserId.toString() !== userId
-      );
-      recipe.recipeLikeCount = Math.max(0, recipe.recipeLikeCount - 1); 
+    if (existingUserIndex !== -1) {
+      // User has already liked, so remove the like
+      recipe.likedUsers.splice(existingUserIndex, 1);
+      recipe.recipeLikeCount = (recipe.recipeLikeCount || 1) - 1;
     } else {
+      // User hasn't liked, so add the like
       recipe.likedUsers.push(userId);
-      recipe.recipeLikeCount += 1;
+      recipe.recipeLikeCount = (recipe.recipeLikeCount || 0) + 1;
     }
 
     await recipe.save();
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: "Like operation handled successfully",
+      likeCount: recipe.recipeLikeCount,
     });
   } catch (error) {
     console.error("Error adding/removing like:", error.message);
@@ -190,10 +191,10 @@ const getRecipe = async (req, res) => {
 const getMostLikedRecipe = async (req, res) => {
   try {
     const mostLikedRecipe = await Recipe.findOne()
-      .sort({ recipeLikeCount: -1 }) 
-      .limit(1) 
+      .sort({ recipeLikeCount: -1 })
+      .limit(1)
       .select("-comments")
-      .populate("createdBy", "username"); 
+      .populate("createdBy", "username");
 
     if (!mostLikedRecipe) {
       return res.status(404).json({
@@ -220,9 +221,9 @@ const getLatestRecipes = async (req, res) => {
   try {
     const latestRecipes = await Recipe.find()
       .sort({ _id: -1 })
-      .limit(4) 
-      .select("-comments") 
-      .populate("createdBy", "username"); 
+      .limit(4)
+      .select("-comments")
+      .populate("createdBy", "username");
 
     if (latestRecipes.length === 0) {
       return res.status(404).json({
@@ -248,7 +249,7 @@ const getLatestRecipes = async (req, res) => {
 
 const showallrecipes = async (req, res) => {
   try {
-    const recipes = await Recipe.find().populate('createdBy', 'username email');
+    const recipes = await Recipe.find().populate("createdBy", "username email");
     res.status(200).json(recipes);
   } catch (error) {
     res
@@ -258,8 +259,8 @@ const showallrecipes = async (req, res) => {
 };
 
 const adeleterecipe = async (req, res) => {
-  const delrecipeId = req.params.id; 
-  const userId = req.user.id; 
+  const delrecipeId = req.params.id;
+  const userId = req.user.id;
 
   try {
     const loggedInUser = await User.findById(userId);
@@ -269,7 +270,7 @@ const adeleterecipe = async (req, res) => {
     }
 
     if (loggedInUser.role !== "admin") {
-      return res.status(403).json({ message: "Not authorized" }); 
+      return res.status(403).json({ message: "Not authorized" });
     }
 
     const recipetodelete = await Recipe.findByIdAndDelete(delrecipeId);
@@ -278,7 +279,11 @@ const adeleterecipe = async (req, res) => {
       return res.status(404).json({ message: "Recipe to delete not found" });
     }
 
-    res.json({ success: true, message: "Recipe deleted successfully", recipe: recipetodelete });
+    res.json({
+      success: true,
+      message: "Recipe deleted successfully",
+      recipe: recipetodelete,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error", error });
@@ -296,5 +301,5 @@ module.exports = {
   getRecipe,
   getMostLikedRecipe,
   getLatestRecipes,
-  adeleterecipe
+  adeleterecipe,
 };

@@ -25,7 +25,7 @@ const RecipeSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  recipeLikeCount: Number,
+  recipeLikeCount: { type: Number, default: 0 },
   comments: [
     {
       commentedBy: {
