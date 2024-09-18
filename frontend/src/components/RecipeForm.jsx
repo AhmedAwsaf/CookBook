@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
 import { apiStart } from "../../api";
 import { useNavigate } from "react-router-dom";
+import FileUpload from "./RPupload";
 
 const RecipeForm = () => {
   const navigate = useNavigate();
@@ -19,8 +20,8 @@ const RecipeForm = () => {
     cookTime: "",
     servings: "",
     difficulty: "",
-    photo: "",
-  });
+    photo: "http://localhost:5001/recipepictures/default.jpg",
+  }); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,6 +83,15 @@ const RecipeForm = () => {
   const removeTag = (index) => {
     const tags = recipe.tags.filter((_, i) => i !== index);
     setRecipe((prev) => ({ ...prev, tags }));
+  };
+
+  const updatePhoto = (newPhotoUrl) => {
+    const correctedUrl = newPhotoUrl.replace("public", "").replace(/\\/g, "/");
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      photo: `${apiStart}${correctedUrl}`,
+    }));
+    console.log(`${apiStart}/${correctedUrl}`)
   };
 
   const handleSubmit = async (e) => {
@@ -146,7 +156,8 @@ const RecipeForm = () => {
             >
               Photo URL
             </label>
-            <input
+            <FileUpload photolink={updatePhoto}/>
+            {/* <input
               type="text"
               id="photo"
               name="photo"
@@ -154,7 +165,8 @@ const RecipeForm = () => {
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
               value={recipe.photo}
               onChange={handleChange}
-            />
+            /> */}
+
           </div>
         </div>
 
