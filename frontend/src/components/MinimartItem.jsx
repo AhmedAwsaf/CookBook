@@ -2,6 +2,7 @@ import React from "react";
 import { HiOutlineShoppingCart } from "react-icons/hi2";
 
 const Itemcard = ({
+  id,
   imageUrl,
   Name,
   Description,
@@ -43,7 +44,7 @@ const Itemcard = ({
             </div>
             <button
               onClick={() =>
-                addCart({ name: Name, price: Price, imageUrl, quantity: 1 })
+                addCart({ id:id, name: Name, price: Price, imageUrl, quantity: 1 })
               }
             >
               <HiOutlineShoppingCart className="h-6 w-6" />

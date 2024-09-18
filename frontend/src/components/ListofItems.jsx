@@ -22,11 +22,13 @@ const ItemList = ({ setCart, addCart }) => {
             `${apiStart}/api/minimart/all-products`
           );
           setProducts(response.data);
+          console.log(response.data);
         } else {
           const response = await axios.get(
             `${apiStart}/api/minimart/products/${selectedCategory}`
           );
           setProducts(response.data);
+          console.log(response.data);
         }
       } catch (err) {
         console.log(err);
@@ -50,6 +52,7 @@ const ItemList = ({ setCart, addCart }) => {
         );
 
         setProducts(response.data);
+        console.log(response.data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -67,6 +70,7 @@ const ItemList = ({ setCart, addCart }) => {
       {products?.map((product, index) => (
         <Itemcard
           key={index}
+          id={product._id}
           imageUrl={product.imageUrl}
           Name={product.name}
           Description={product.description}

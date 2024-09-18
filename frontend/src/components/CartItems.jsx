@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { HiOutlineMinus, HiOutlineTrash, HiOutlinePlus } from "react-icons/hi2";
+import { Link } from "react-router-dom";
 
 const CartItems = ({ cart, setCart, deleteItem }) => {
   // Dummy data for cart items
@@ -90,6 +91,7 @@ const CartItems = ({ cart, setCart, deleteItem }) => {
                 alt={item.name}
                 className="w-20 h-20 object-cover rounded-md"
               />
+              
               <div className="ml-4 justify-self-start">
                 <h3 className="font-semibold text-lg">{item.name}</h3>
               </div>
@@ -131,9 +133,11 @@ const CartItems = ({ cart, setCart, deleteItem }) => {
         <h3 className="text-xl font-semibold">Tk. {totalPrice.toFixed(2)}</h3>
       </div>
       <div className="mt-4 text-right">
+        <Link to='/minimart/checkout'>
         <button className="px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700">
           Proceed to Checkout
         </button>
+        </Link>
       </div>
     </div>
   );

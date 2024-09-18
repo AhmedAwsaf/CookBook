@@ -16,10 +16,12 @@ import Cart from "./pages/Cart";
 import CreateRecipe from "./pages/CreateRecipe";
 import CategoryPage from "./pages/CategoryPage";
 import Search from "./pages/Search";
+import Checkout from "./pages/CheckoutPage";
 
 import FryingpanSpinner from "./components/FryingpanSpinner";
 import { useState } from "react";
 import ViewOthersProfile from "./pages/ViewOthersProfile";
+
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -62,6 +64,12 @@ function App() {
             path="/minimart/cart"
             element={
               <Cart cart={cart} setCart={setCart} deleteItem={deleteItem} />
+            }
+          />
+          <Route
+            path="/minimart/checkout"
+            element={
+              <Checkout cart={cart}/>
             }
           />
           <Route path="/search" element={<Search />} />

@@ -57,7 +57,7 @@ const VerifyEmailPage = () => {
 
     if (token) {
       verifyEmail(token);
-      navigate("/");
+      // navigate("/");
     } else {
       checkUserStatus();
     }
@@ -134,7 +134,7 @@ const VerifyEmailPage = () => {
               </button>
             </div>
           )}
-          {/* 
+{/*           
           <p className="mt-4 text-gray-500">
             Try searching again, or return home to start from the beginning.
           </p>
