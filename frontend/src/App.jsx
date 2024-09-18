@@ -23,6 +23,7 @@ import { useState } from "react";
 import ViewOthersProfile from "./pages/ViewOthersProfile";
 
 
+
 function App() {
   const [cart, setCart] = useState([]);
 
@@ -54,7 +55,7 @@ function App() {
           <Route path="/signup" element={<CreateAccount />} />
           <Route
             path="/minimart"
-            element={<Minimart setCart={setCart} addCart={addCart} />}
+            element={<Minimart cart={cart} setCart={setCart} addCart={addCart} deleteitem={deleteItem} />}
           />
           <Route
             path="/minimart/cart"

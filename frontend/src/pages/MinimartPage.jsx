@@ -5,7 +5,7 @@ import MinimartHero from "../components/MinimartHero";
 import ItemCategory from "./ItemCategory";
 import ItemList from "../components/ListofItems";
 
-const Minimart = ({ setCart, addCart }) => {
+const Minimart = ({ cart, deleteitem, setCart, addCart }) => {
   return (
     <div>
       <Header />
@@ -13,7 +13,7 @@ const Minimart = ({ setCart, addCart }) => {
         <MinimartHero />
         <ItemCategory />
       </div>
-      <ItemList setCart={setCart} addCart={addCart} />
+      <ItemList cart={cart} deleteitem={deleteitem} setCart={setCart} addCart={addCart} />
     </div>
   );
 };

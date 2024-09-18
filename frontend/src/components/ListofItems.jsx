@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import FryingpanSpinner from "./FryingpanSpinner";
 
-const ItemList = ({ setCart, addCart }) => {
+const ItemList = ({ cart, deleteitem, setCart, addCart }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchParams] = useSearchParams();
@@ -76,6 +76,8 @@ const ItemList = ({ setCart, addCart }) => {
           Description={product.description}
           Price={product.price}
           unit={product.unit}
+          cart={cart}
+          deleteitem={deleteitem}
           setCart={setCart}
           addCart={addCart}
         />
