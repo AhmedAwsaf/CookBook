@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const UserTable = ({ userData, onViewUser, onDeleteUser }) => {
+const UserTable = ({ userData, onView, onDelete }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Filter user data based on search term
@@ -48,14 +48,14 @@ const UserTable = ({ userData, onViewUser, onDeleteUser }) => {
               <td className="border whitespace-nowrap px-4 py-2 font-medium text-gray-900">{user.role}</td>
               <td className="whitespace-nowrap px-4 py-2">
                 <button
-                  onClick={() => onViewUser(user)}
+                  onClick={() => onView("user",user)}
                   className="inline-block rounded bg-indigo-600 px-4 py-2 mx-2 text-xs font-medium text-white hover:bg-indigo-700"
                 >
                   View
                 </button>
                 {user.role !== "admin" && (
                   <button
-                  onClick={()=> onDeleteUser(user)}
+                  onClick={()=> onDelete("user",user._id)}
                   className="inline-block rounded bg-red-600 px-4 py-2 text-xs font-medium text-white hover:bg-red-700"
                 >
                   Delete

@@ -60,10 +60,10 @@ const Signup = () => {
 
   return (
     <section>
-      <a href="/" className="fixed right-0 top-0 flex z-40">
+      {/* <a href="/" className="fixed right-0 top-0 flex z-40">
         <h1 className="my-auto h-full">🡐 HOME</h1>
         <img src={logo} className="h-12 my-6 mx-8" alt="logo" />
-      </a>
+      </a> */}
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12 z-10">
         <section className="relative flex h-32 items-end lg:bg-gray-900 lg:col-span-5 lg:h-full xl:col-span-6">
           <img

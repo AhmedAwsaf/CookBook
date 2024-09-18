@@ -1,77 +1,69 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { apiStart } from '../../../api';
-import UserTable from './MEUserdata';
+import UserTable from './UserTable';
+import RecipeTable from './RecipeTable';
+import DetailsPanel from './DetailsPanel';
 
 const MainEntities = () => {
   const [activeTab, setActiveTab] = useState('Users');
   const [userData, setUserData] = useState([]);
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [userPosts, setUserPosts] = useState([]);
+  const [recipeData, setRecipeData] = useState([]);
+  const [selectedEntity, setSelectedEntity] = useState(null);
+  const [selectedEntityType, setSelectedEntityType] = useState("user");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const tabs = ['Users','Recipes','Items'];
+  const tabs = ['Users', 'Recipes'];
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedUser) {
-      fetchUserPosts(selectedUser._id);
+    if (activeTab === 'Users') {
+      fetchData('user');
+    } else if (activeTab === 'Recipes') {
+      fetchData('recipe');
     }
-  }, [selectedUser]);
+  }, [activeTab]);
 
-  const fetchUserData = async () => {
+  const fetchData = async (type) => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${apiStart}/api/user/all`);
-      setUserData(response.data.data);
+      const response = await axios.get(`${apiStart}/api/${type}/all`);
+      if (type === 'user') {
+        setUserData(response.data.data);
+      } else {
+        setRecipeData(response.data);
+      }
     } catch (error) {
-      setError('Error fetching user data');
-      console.error('Error fetching user data:', error);
+      setError(`Error fetching ${type} data`);
+      console.error(`Error fetching ${type} data:`, error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const fetchUserPosts = async (userId) => {
+  const handleViewEntity = (type,entity) => {
+    setSelectedEntity(entity);
+    setSelectedEntityType(type);
+  };
+
+  const handleDeleteEntity = async (type, id) => {
+    const confirmed = window.confirm(`Are you sure you want to delete this ${type}?`);
+
+    if (!confirmed) return;
+
     try {
-      const response = await axios.post(`${apiStart}/api/recipe/userRecipes`, {
-        createdBy: userId,
+      const response = await axios.delete(`${apiStart}/api/${type}/adelete/${id}`, {
+        headers: { Authorization: localStorage.getItem('loginToken') },
       });
-      setUserPosts(response.data);
-    } catch (error) {
-      console.error('Error fetching user posts:', error);
-    }
-  };
 
-  const handleViewUser = (user) => {
-    setSelectedUser(user);
-  };
-
-  const handleDeleteUser = async (user) =>{
-    const confirmed = window.confirm("Are you sure you want to delete this user?");
-
-    if (!confirmed) {
-      console.log("User deletion canceled.");
-      return;
-    }
-    console.log(user._id)
-    try {
-      const response = await axios.delete(`${apiStart}/api/user/adelete/${user._id}`, 
-        { headers: { Authorization: localStorage.getItem("loginToken") } }
-      );
-  
       if (response.data.success) {
-        console.log("User deleted successfully");
-        return response.data;
+        console.log(`${type} deleted successfully`);
+        fetchData(type);
       } else {
-        console.error("Failed to delete user:", response.data.message);
+        console.error(`Failed to delete ${type}:`, response.data.message);
       }
     } catch (error) {
-      console.error("Server error:", error.response?.data || error.message);
+      console.error('Server error:', error.response?.data || error.message);
     }
   };
 
@@ -96,60 +88,30 @@ const MainEntities = () => {
         </ul>
       </div>
 
-      {/* Middle part: Tab content */}
+      {/* Middle part: Table content */}
       <div className="w-1/2 p-4">
-        {activeTab === 'Users' && (
-          <>
-            {isLoading ? (
-              <p className="text-gray-500">Loading...</p>
-            ) : error ? (
-              <p className="text-red-500">{error}</p>
-            ) : (
-              <UserTable userData={userData} onViewUser={handleViewUser} onDeleteUser={handleDeleteUser} />
-            )}
-          </>
-        )}
-
-        {activeTab === 'Teams' && <div>Teams Content</div>}
+        {isLoading ? (
+          <p className="text-gray-500">Loading...</p>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : activeTab === 'Users' ? (
+          <UserTable
+            userData={userData}
+            onView={handleViewEntity}
+            onDelete={handleDeleteEntity}
+          />
+        ) : activeTab === 'Recipes' ? (
+          <RecipeTable
+            recipeData={recipeData}
+            onView={handleViewEntity}
+            onDelete={handleDeleteEntity}
+          />
+        ) : null}
       </div>
 
-      {/* Right part: Additional content */}
+      {/* Right part: Details Panel */}
       <div className="w-1/3 p-4 bg-gray-100">
-        {selectedUser ? (
-          <div>
-            <h3 className="text-xl font-medium mb-2">User Details</h3>
-            <p><strong>Email:</strong> {selectedUser.email}</p>
-            <p><strong>Username:</strong> {selectedUser.username}</p>
-            <p><strong>Role:</strong> {selectedUser.role}</p>
-            <p><strong>Created At:</strong> {new Date(selectedUser.createdAt).toLocaleString()}</p>
-            <p><strong>Updated At:</strong> {new Date(selectedUser.updatedAt).toLocaleString()}</p>
-
-            {/* User Posts */}
-            <h4 className="text-lg font-medium mt-4 mb-2">User Posts</h4>
-            {userPosts.length > 0 ? (
-              <ul className="list-disc pl-5">
-              {userPosts.map((post) => (
-                <li key={post._id}>
-                  <p className='text-green-800'><strong>Title:</strong> {post.name}</p>
-                  <p><strong>Category:</strong> {post.category}</p>
-                  <p><strong>Tags:</strong> {post.tags.join(", ")}</p>
-                  <p><strong>Prep Time:</strong> {post.prepTime}</p>
-                  <p><strong>Cook Time:</strong> {post.cookTime}</p>
-                  <p><strong>Servings:</strong> {post.servings}</p>
-                  <p><strong>Difficulty:</strong> {post.difficulty}</p>
-                  <p><strong>Recipe Like Count:</strong> {post.recipeLikeCount}</p>
-                  <p><strong>Created By:</strong> {post.createdBy.username}</p>
-                  <p><strong>Created At:</strong> {new Date(post.createdAt).toLocaleString()}</p>
-                </li>
-              ))}
-              </ul>
-            ) : (
-              <p className="text-gray-500">No posts available for this user.</p>
-            )}
-          </div>
-        ) : (
-          <p className="text-gray-500">Select a user to view details and posts.</p>
-        )}
+        <DetailsPanel entity={selectedEntity} type={selectedEntityType} />
       </div>
     </div>
   );

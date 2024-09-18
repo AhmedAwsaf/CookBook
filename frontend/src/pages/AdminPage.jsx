@@ -6,12 +6,13 @@ import logo from "/logo.svg";
 import Billing from "../components/AdminComponents/Billing";
 import MainEntities from "../components/AdminComponents/MainEntities";
 import Roles from "../components/AdminComponents/Roles";
+import MinimartManager from "../components/AdminComponents/MinimartManager";
 
 const AdminPage = () => {
   const { isAuthenticated, userObj } = useAuth();
   const [activeTab, setActiveTab] = useState("Main Entities");
 
-  const tabs = ["Main Entities", "Billing Info", "User Roles"];
+  const tabs = ["Main Entities", "Billing Info", "User Roles", "Minimart Items"];
 
   if (!isAuthenticated) {
     return (
@@ -87,6 +88,7 @@ const AdminPage = () => {
           {activeTab === "Main Entities" && <MainEntities />}
           {activeTab === "Billing Info" && <Billing />}
           {activeTab === "User Roles" && <Roles />}
+          {activeTab === "Minimart Items" && <MinimartManager />}
         </div>
       </div>
     </div>

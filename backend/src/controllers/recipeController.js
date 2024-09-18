@@ -1,5 +1,7 @@
 const Recipe = require("../model/RecipeModel");
 
+const User = require("../model/User");
+
 const createRecipe = async (req, res) => {
   try {
     const {
@@ -16,7 +18,6 @@ const createRecipe = async (req, res) => {
       createdBy,
     } = req.body;
 
-    // Create a new recipe instance
     const newRecipe = new Recipe({
       name,
       category,
@@ -33,7 +34,6 @@ const createRecipe = async (req, res) => {
       likedUsers: [],
     });
 
-    // Save the recipe to the database
     await newRecipe.save();
 
     res.status(201).json({
@@ -140,15 +140,13 @@ const addLike = async (req, res) => {
     );
 
     if (existingUserId) {
-      // User already liked the recipe, remove the like
       recipe.likedUsers = recipe.likedUsers.filter(
         (likedUserId) => likedUserId.toString() !== userId
       );
-      recipe.recipeLikeCount = Math.max(0, recipe.recipeLikeCount - 1); // Decrement like count
+      recipe.recipeLikeCount = Math.max(0, recipe.recipeLikeCount - 1); 
     } else {
-      // User has not liked the recipe, add the like
       recipe.likedUsers.push(userId);
-      recipe.recipeLikeCount += 1; // Increment like count
+      recipe.recipeLikeCount += 1;
     }
 
     await recipe.save();
@@ -192,10 +190,10 @@ const getRecipe = async (req, res) => {
 const getMostLikedRecipe = async (req, res) => {
   try {
     const mostLikedRecipe = await Recipe.findOne()
-      .sort({ recipeLikeCount: -1 }) // Sort by recipeLikeCount in descending order
-      .limit(1) // Limit to 1 result (the most liked recipe)
-      .select("-comments") // Exclude comments to reduce payload size
-      .populate("createdBy", "username"); // Populate the createdBy field with the username
+      .sort({ recipeLikeCount: -1 }) 
+      .limit(1) 
+      .select("-comments")
+      .populate("createdBy", "username"); 
 
     if (!mostLikedRecipe) {
       return res.status(404).json({
@@ -221,10 +219,10 @@ const getMostLikedRecipe = async (req, res) => {
 const getLatestRecipes = async (req, res) => {
   try {
     const latestRecipes = await Recipe.find()
-      .sort({ _id: -1 }) // Sort by _id in descending order (assumes _id contains creation timestamp)
-      .limit(4) // Limit to 4 results
-      .select("-comments") // Exclude comments to reduce payload size
-      .populate("createdBy", "username"); // Populate the createdBy field with the username
+      .sort({ _id: -1 })
+      .limit(4) 
+      .select("-comments") 
+      .populate("createdBy", "username"); 
 
     if (latestRecipes.length === 0) {
       return res.status(404).json({
@@ -248,7 +246,47 @@ const getLatestRecipes = async (req, res) => {
   }
 };
 
+const showallrecipes = async (req, res) => {
+  try {
+    const recipes = await Recipe.find().populate('createdBy', 'username email');
+    res.status(200).json(recipes);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+};
+
+const adeleterecipe = async (req, res) => {
+  const delrecipeId = req.params.id; 
+  const userId = req.user.id; 
+
+  try {
+    const loggedInUser = await User.findById(userId);
+
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (loggedInUser.role !== "admin") {
+      return res.status(403).json({ message: "Not authorized" }); 
+    }
+
+    const recipetodelete = await Recipe.findByIdAndDelete(delrecipeId);
+
+    if (!recipetodelete) {
+      return res.status(404).json({ message: "Recipe to delete not found" });
+    }
+
+    res.json({ success: true, message: "Recipe deleted successfully", recipe: recipetodelete });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
 module.exports = {
+  showallrecipes,
   createRecipe,
   getAllRecipes,
   getCategory,
@@ -258,4 +296,5 @@ module.exports = {
   getRecipe,
   getMostLikedRecipe,
   getLatestRecipes,
+  adeleterecipe
 };
