@@ -21,6 +21,8 @@ import Checkout from "./pages/CheckoutPage";
 import FryingpanSpinner from "./components/FryingpanSpinner";
 import { useState } from "react";
 import ViewOthersProfile from "./pages/ViewOthersProfile";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 
 
@@ -47,6 +49,7 @@ function App() {
     <>
       <Toaster position="bottom-right" reverseOrder={false} />
       <BrowserRouter>
+      <Header items={cart.length}/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/loader" element={<FryingpanSpinner />} />
@@ -86,6 +89,7 @@ function App() {
           </Route>
           <Route path="/viewprofilepage/:id" element={<ViewOthersProfile />} />
         </Routes>
+        <Footer/>
       </BrowserRouter>
     </>
   );

@@ -8,7 +8,7 @@ const Userprofilepage = () => {
   return (
     <div>
       <div className="min-h-screen flex flex-col">
-        <Header />
+        {/* <Header /> */}
 
         <div className="flex">
           <UserSideBar />

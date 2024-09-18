@@ -5,7 +5,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { apiStart } from "../../api";
 import MobileNav from "./MobileNav";
 
-const Header = () => {
+const Header = ({items}) => {
   const [hideLeft, setHideLeft] = useState("-left-[1000px]");
   const { isAuthenticated, userObj, checkTokenValidity } = useAuth();
   const menuItems = ["recipes", "minimart", "about", "contact"];
@@ -30,6 +30,7 @@ const Header = () => {
           Logo={logo}
           userProfile={userObj}
           onLogout={handleLogout}
+          items={items}
         />
       </div>
       <div className="min-[900px]:hidden">
@@ -38,6 +39,7 @@ const Header = () => {
           Logo={logo}
           userProfile={userObj}
           onLogout={handleLogout}
+          items={items}
         />
       </div>
     </>

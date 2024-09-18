@@ -5,7 +5,7 @@ import Logincomp from "../components/Loginco";
 const Loginpage = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <Logincomp />
     </div>
   );

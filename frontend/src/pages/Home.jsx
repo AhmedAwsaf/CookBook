@@ -11,7 +11,7 @@ import { MdOutlineSearch } from "react-icons/md";
 const Home = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="max-w-6xl mx-auto">
         <Hero />
 
@@ -37,7 +37,7 @@ const Home = () => {
         <FeaturedCard />
         <LatestRecipes />
       </div>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

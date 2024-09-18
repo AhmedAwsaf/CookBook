@@ -55,7 +55,7 @@ const Search = () => {
 
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="px-6 lg:px-12 py-20">
         <h1 className="text-center text-3xl py-10 font-semibold text-secondary sm:text-6xl sm:leading-relaxed">
           Search

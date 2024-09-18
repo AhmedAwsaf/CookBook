@@ -5,7 +5,7 @@ import Header from "../components/Header";
 const EditProfilePage = () => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="flex items-center justify-center mt-16">
         <EditProfile />
         

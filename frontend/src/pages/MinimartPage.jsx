@@ -8,7 +8,7 @@ import ItemList from "../components/ListofItems";
 const Minimart = ({ cart, deleteitem, setCart, addCart }) => {
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="flex flex-col justify-center items-center w-full py-20">
         <MinimartHero />
         <ItemCategory />

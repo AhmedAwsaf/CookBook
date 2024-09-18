@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/Header";
+// import Header from "../components/Header";
 import {toast} from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -135,7 +135,7 @@ const Checkout = ({ cart }) => {
 
   return (
     <div className="">
-      <Header />
+      {/* <Header /> */}
 
       <div className="max-w-screen-lg mx-auto mt-9 mb-6">
         

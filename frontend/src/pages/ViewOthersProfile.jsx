@@ -8,7 +8,7 @@ const ViewOthersProfile = () => {
   console.log(id);
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <div className="flex">
         <div className="flex-1 p-6">
           <div className="m1-0">

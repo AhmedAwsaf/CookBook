@@ -11,7 +11,7 @@ import {
 import { HiArrowRightStartOnRectangle } from "react-icons/hi2";
 import { apiStart } from "../../api";
 
-const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
+const Nav = ({ menuItems, Logo, userProfile, onLogout,items }) => {
   const { checkTokenValidity, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   function handleLogOut() {
@@ -66,8 +66,13 @@ const Nav = ({ menuItems, Logo, userProfile, onLogout }) => {
             </li>
 
             <li>
-              <Link to="/minimart/cart" className="hover:text-teal-600">
+              <Link to="/minimart/cart" className="relative hover:text-teal-600">
                 <HiOutlineShoppingCart size={28} />
+                {items > 0 && (
+                  <span className="absolute -top-2 -right-2 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-green-700 rounded-full">
+                    {items}
+                  </span>
+                )}
               </Link>
             </li>
             <li>
