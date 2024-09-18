@@ -81,11 +81,11 @@ const CartItems = ({ cart, setCart, deleteItem }) => {
       </div>
       <div className="flex flex-col gap-4">
         {cartItems.map((item, index) => (
-          <div className="grid grid-cols-[1fr_auto] gap-4 items-center">
-            <div
-              key={index}
-              className="grid grid-cols-[auto_6fr_2fr_3fr_2fr] justify-items-center items-center p-4 bg-white shadow-md rounded-lg"
-            >
+          <div
+            key={index}
+            className="grid grid-cols-[1fr_auto] gap-4 items-center"
+          >
+            <div className="grid grid-cols-[auto_6fr_2fr_3fr_2fr] justify-items-center items-center p-4 bg-white shadow-md rounded-lg">
               <img
                 src={item.imageUrl}
                 alt={item.name}

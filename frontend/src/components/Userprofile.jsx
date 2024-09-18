@@ -10,6 +10,8 @@ import axios from "axios";
 const UserProfile = () => {
   const { userObj } = useAuth();
   const [posts, setPosts] = useState([]);
+  const [totalLikes, setTotalLikes] = useState(0);
+
   useEffect(() => {
     async function getUserPosts() {
       try {
@@ -20,6 +22,11 @@ const UserProfile = () => {
         );
         console.log(response.data);
         setPosts(response.data.length);
+        const likes = response.data.reduce(
+          (sum, recipe) => sum + (recipe.recipeLikeCount || 0),
+          0
+        );
+        setTotalLikes(likes);
       } catch (error) {
         console.log(error);
       }
@@ -53,8 +60,8 @@ const UserProfile = () => {
       </div>
       <UserProfileStat
         postsCount={posts}
-        followersCount={userObj?.UserLikeCount}
-        followingCount={userObj?.creditPoints}
+        likesOnProfile={totalLikes}
+        creditPoints={userObj?.creditPoints}
       />
     </div>
   );
