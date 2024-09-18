@@ -39,12 +39,12 @@ const AdminPage = () => {
 
   return (
     <div className="font-sans">
-      <header className="bg-white">
+      {/* <header className="bg-white">
         <div className="flex justify-center py-5">
           <Link to="/"><img src={logo} alt="logo" className="h-12 w-auto" /></Link>
           <h1 className="text-red-700 font-bold text-2xl ml-4">Admin Page</h1>
         </div>
-      </header>
+      </header> */}
 
       <div className="max-w-screen-xl mx-auto">
         <div className="p-4">
