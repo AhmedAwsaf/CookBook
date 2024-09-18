@@ -10,6 +10,11 @@ router.get("/products/search/:name", ProductController.getSearchedProducts);
 router.get("/products/single/:id", ProductController.getSingleProduct);
 router.get("/products/:category", ProductController.getProductCategory);
 
+router.post('/products', verifyToken, ProductController.createProduct);
+router.get('/products', verifyToken, ProductController.getProducts);
+router.put('/products/:id', verifyToken, ProductController.updateProduct);
+router.delete('/products/:id', verifyToken, ProductController.deleteProduct);
+
 router.post("/billing", verifyToken, ProductController.postCartBill);
 router.get('/orders',verifyToken, ProductController.getAllOrders);
 router.get('/orders/:id', verifyToken,ProductController.getOrderById);

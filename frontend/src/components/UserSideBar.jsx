@@ -111,11 +111,10 @@ const UserSideBar = () => {
                   </button>
                 </li>
                 <li>
+                {!userObj.isVerified && (
                   <button className="w-full rounded-lg px-4 py-2 text-sm font-medium text-gray-500 [text-align:_inherit] hover:bg-gray-100 hover:text-gray-700">
-                    {!userObj.isVerified && (
-                      <Link to="/verify-email">Verify Email</Link>
-                    )}
-                  </button>
+                    <Link to="/verify-email">Verify Email</Link>
+                  </button>)}
                 </li>
                 <li>
                   <button
