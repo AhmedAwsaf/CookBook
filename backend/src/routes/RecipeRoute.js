@@ -20,21 +20,6 @@ const {
 } = require("../controllers/recipeController");
 
 
-// const RPstorage = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     // Set the destination directory
-//     cb(null, path.join(__dirname, '../public/recipepictures'));
-//   },
-//   filename: (req, file, cb) => {
-//     // Generate a new filename with date and time prefix
-//     const date = new Date();
-//     const datePrefix = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`;
-//     const ext = path.extname(file.originalname);
-//     const filename = `${datePrefix}_${file.originalname}`;
-    
-//     cb(null, filename);
-//   }
-// });
 const RPstorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/recipepictures");
