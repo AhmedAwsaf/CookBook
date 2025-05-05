@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
@@ -10,7 +11,7 @@ const User = require("../model/User");
 
 const beapistart = "http://localhost:5001";
 
-const feapistart = "http://localhost:5173";
+const feapistart = process.env.URL_FESTART;
 
 //GET USER DATA
 
@@ -103,7 +104,7 @@ const createUser = async (req, res) => {
 
     await newUser.save();
 
-    const token = jwt.sign({ id: newUser._id, role: newUser.role }, "secret", {
+    const token = jwt.sign({ id: newUser._id, role: newUser.role }, process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
 
@@ -141,7 +142,7 @@ const loginUser = async (req, res) => {
         .json({ success: false, message: "Invalid password" });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, "secret", {
+    const token = jwt.sign({ id: user._id, role: user.role },  process.env.SECRET_KEY, {
       expiresIn: "24h",
     });
 

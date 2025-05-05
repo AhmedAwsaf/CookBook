@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
@@ -12,7 +14,7 @@ app.use(express.static("public"));
 
 async function main() {
   await mongoose.connect(
-    "mongodb+srv://abonirounak:6ZufqdRLedkqMbCc@cookbook-react-app.yh2pjuw.mongodb.net/cookbook-react-app?retryWrites=true&w=majority&appName=CookBook-react-app"
+    process.env.MONGO_DB_URI
   );
 
   console.log("Mongodb Connected Successfully!");
